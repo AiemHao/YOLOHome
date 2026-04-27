@@ -23,14 +23,6 @@ YOLOHome/
 	└─ frontend/
 		└─ Dockerfile
 ```
-
-**Lưu ý:**
-Từ thư mục root YOLOHome, cần clone 2 repo vào đúng tên thư mục như sau:
-
-```powershell
-git clone https://github.com/AiemHao/YOLOHome-Gateway YOLOHome-Gateway
-git clone https://github.com/AiemHao/YOLOHome-Website YOLOHome-Website
-```
 ## Tổng quan Docker Compose
 
 File compose chính là docker-compose.yml ở thư mục root.
