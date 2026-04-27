@@ -1,0 +1,74 @@
+.sidebar {
+  width: 280px;
+  min-width: 280px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #E6F3F5; /* Matches the middle gray area */
+  border-right: 1px solid #ccc; /* fallback contrast */
+}
+
+.sidebar-top {
+  background-color: #3ABCEE; /* The light blue from mock */
+  height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo-box {
+  background: white;
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+  background-color: #F0F4F7;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  padding: 18px 25px;
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+  border-bottom: 2px solid #E6EBEE;
+}
+
+.nav-item:first-child {
+  border-top: 2px solid #E6EBEE;
+}
+
+.nav-item.active {
+  background-color: white;
+}
+
+.icon-wrapper {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #EDFDF8; /* subtle green bg circle */
+  border-radius: 50%;
+}
+
+.nav-item.active .icon-wrapper {
+  background-color: #EDFDF8; 
+}
+
+.sidebar-bottom {
+  flex-grow: 1;
+  background-color: #1CD0A0; /* The bottom teal */
+}

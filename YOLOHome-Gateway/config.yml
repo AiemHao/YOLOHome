@@ -1,0 +1,85 @@
+# YOLOHome Gateway Configuration
+# ============================================================================
+
+# MQTT Broker Configuration
+mqtt:
+  host: localhost              # MQTT Broker address
+  port: 1883                   # MQTT Port
+  username: ''                 # MQTT Username (leave empty if not needed)
+  password: ''                 # MQTT Password (leave empty if not needed)
+  subscribe_topics:            # Topics to subscribe from Web/App
+    - home/livingroom/device/led/set       # LED command payload JSON: {"action":"on/off"}
+    - home/livingroom/device/fan/set       # Fan command payload JSON: {"action":"on/off"}
+    - home/livingroom/device/servo/set     # Servo command payload JSON: {"action":"on/off"}
+    - home/system/getall                   # Get all device states command
+  
+  # Topic Configuration
+  topics:
+    prefix: "home"                            # Topic prefix
+    location: "livingroom"                    # Current room
+    system_getall: "home/system/getall"       # Request all states
+    system_state_all: "home/system/stateall"  # Publish all states snapshot
+
+# Serial Port Configuration
+serial:
+  port: COM15               # COM port (Windows: COM3, Linux: /dev/ttyUSB0)
+  baudrate: 115200             # Baud rate
+  timeout: 1                   # Read timeout (seconds)
+
+# Application Settings
+app:
+  loop_interval: 0.1           # Main loop interval (seconds)
+  log_level: INFO              # Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+  state_history_size: 20       # Max recent states kept per device/sensor
+
+# Rate Limiting Configuration
+# Tránh spam: chỉ xử lý 1 event từ cùng device mỗi min_interval seconds
+rate_limit:
+  mqtt_to_serial: 0.1          # Min interval giữa 2 lần xử lý MQTT → Serial (giây)
+  serial_to_mqtt: 0.5          # Min interval giữa 2 lần xử lý Serial → MQTT (giây)
+
+# Device Mapping Configuration
+# MQTT device name -> Serial abbreviation
+# Format: MQTT structured topic maps to Serial '!{abbr}:{value}#'
+devices:
+  temp: T                       # Temperature sensor: !T:xx.x#
+  humi: H                       # Humidity sensor: !H:xx.x#
+  light: Lu                     # Light sensor: !Lu:xx#
+  led: L                        # LED control: !L:1/0#
+  fan: F                        # Fan control: !F:1/0#
+  servo: S                      # Servo control: !S:1/0#
+
+# Managed Device Registry
+# This list is the source of truth for devices exposed via MQTT.
+# Serial abbreviation is sourced from `devices` mapping above.
+managed_devices:
+  temp:
+    type: sensor
+    unit: celsius
+    is_switch: false
+    description: Living room temperature
+  humi:
+    type: sensor
+    unit: percent
+    is_switch: false
+    description: Living room humidity
+  light:
+    type: sensor
+    unit: lux
+    is_switch: false
+    description: Living room light level
+  led:
+    type: device
+    unit: binary
+    is_switch: true
+    description: Main LED relay
+  fan:
+    type: device
+    unit: binary
+    is_switch: true
+    description: Ventilation fan
+  servo:
+    type: device
+    unit: binary
+    is_switch: true
+    description: Servo actuator (ON/OFF mode)

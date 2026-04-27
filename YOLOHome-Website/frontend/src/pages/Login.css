@@ -1,0 +1,94 @@
+.login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white; /* Optional: adjust if full card */
+  border: 15px solid #D9D9D9; /* To mimic the mockup border wrapper if needed */
+  padding: 50px;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 450px;
+  padding: 40px;
+}
+
+.login-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.login-title {
+  color: #1CD0A0; /* main teal */
+  margin-top: 10px;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.password-input-container {
+  position: relative;
+  width: 100%;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  background: none;
+}
+
+.forgot-password {
+  text-align: right;
+  margin-bottom: 30px;
+  margin-top: -10px;
+}
+
+.forgot-password a {
+  color: #3ABCEE; /* blue link */
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.test-account-box {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  border: 1px solid #d5efe8;
+  background: #f6fffc;
+  border-radius: 10px;
+}
+
+.test-account-title {
+  color: #0f8b6d;
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.test-account-row {
+  display: flex;
+  justify-content: space-between;
+  color: #1f2937;
+  margin-bottom: 4px;
+  font-size: 14px;
+}
+
+.test-account-btn {
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid #1cd0a0;
+  color: #0f8b6d;
+  background: #ffffff;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.test-account-btn:hover {
+  background: #ebfffa;
+}

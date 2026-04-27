@@ -1,0 +1,6 @@
+/* App Specific Wrapper Styles if any */
+.app-container {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}

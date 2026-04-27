@@ -1,0 +1,49 @@
+.devices-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.devices-content {
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.devices-list {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.device-item {
+  background-color: #E6F5FA;
+  border-radius: 12px;
+  padding: 20px 30px;
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+}
+
+.device-info {
+  display: flex;
+  align-items: center;
+}
+
+.device-icon {
+  background-color: white;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+}
+
+.device-name {
+  font-size: 20px;
+}

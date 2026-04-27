@@ -1,0 +1,71 @@
+# Docker runtime config for YOLOHome Gateway
+mqtt:
+  host: mqtt
+  port: 1883
+  username: ''
+  password: ''
+  subscribe_topics:
+    - home/livingroom/device/led/set
+    - home/livingroom/device/fan/set
+    - home/livingroom/device/servo/set
+    - home/system/getall
+  topics:
+    prefix: "home"
+    location: "livingroom"
+    system_getall: "home/system/getall"
+    system_state_all: "home/system/stateall"
+
+serial:
+  # Giu COM15 co dinh de ban chi can doi COM ben trai trong docker-compose.yml.
+  port: COM15
+  baudrate: 115200
+  timeout: 1
+
+app:
+  loop_interval: 0.1
+  log_level: INFO
+  state_history_size: 20
+
+rate_limit:
+  mqtt_to_serial: 0.1
+  serial_to_mqtt: 0.5
+
+devices:
+  temp: T
+  humi: H
+  light: Lu
+  led: L
+  fan: F
+  servo: S
+
+managed_devices:
+  temp:
+    type: sensor
+    unit: celsius
+    is_switch: false
+    description: Living room temperature
+  humi:
+    type: sensor
+    unit: percent
+    is_switch: false
+    description: Living room humidity
+  light:
+    type: sensor
+    unit: lux
+    is_switch: false
+    description: Living room light level
+  led:
+    type: device
+    unit: binary
+    is_switch: true
+    description: Main LED relay
+  fan:
+    type: device
+    unit: binary
+    is_switch: true
+    description: Ventilation fan
+  servo:
+    type: device
+    unit: binary
+    is_switch: true
+    description: Servo actuator (ON/OFF mode)
