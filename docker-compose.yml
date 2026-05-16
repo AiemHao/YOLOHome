@@ -65,7 +65,7 @@ services:
       - ./YOLOHome-Gateway/config.docker.yml:/app/config.yml:ro
     # Change the left-one COM15 to the actual serial port on your host machine that connects to the Kit.
     devices:
-      - "COM15:COM15"
+      - "/dev/ttyUSB0:COM15"
     privileged: true
     restart: unless-stopped
 

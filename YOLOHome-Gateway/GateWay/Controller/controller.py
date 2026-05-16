@@ -9,7 +9,7 @@ import json
 import re
 from typing import Dict, Any, Optional, List
 from datetime import datetime
-from .services import DeviceService, StateService
+from .services import DeviceService, StateService, ThresholdService, AIService
 
 logger = logging.getLogger(__name__)
 
@@ -25,7 +25,10 @@ class MainController:
                  rate_limit_mqtt: float = 0.1, rate_limit_serial: float = 0.5,
                  mqtt_topics: Dict[str, str] = None,
                  state_history_size: int = 20,
-                 managed_devices: Dict[str, Dict[str, Any]] = None):
+                 managed_devices: Dict[str, Dict[str, Any]] = None,
+                 threshold_rules: List[Dict[str, Any]] = None,
+                 ai_enabled: bool = False,
+                 ai_model_path: str = None):
         """Initialize the message router.
         
         Args:
@@ -35,6 +38,9 @@ class MainController:
             rate_limit_mqtt: Minimum interval in seconds between MQTT→Serial messages.
             rate_limit_serial: Minimum interval in seconds between Serial→MQTT messages.
             mqtt_topics: Topic configuration dict with keys: getall, state_prefix, state_all.
+            threshold_rules: List of internal automation threshold rules.
+            ai_enabled: Whether to use AI-based automation instead of threshold rules.
+            ai_model_path: Path to trained Decision Tree model pickle file.
         """
         self.mqtt = mqtt_client
         self.serial = serial_module
@@ -45,6 +51,9 @@ class MainController:
         self.topic_system_state_all = self.mqtt_topics.get('system_state_all', 'home/system/stateall')
         self.device_service = DeviceService(self.adapter, managed_devices)
         self.state_service = StateService(state_history_size)
+        self.threshold_service = ThresholdService(threshold_rules, enabled=True)
+        self.ai_service = AIService(model_path=ai_model_path, enabled=ai_enabled)
+        
         # Keep attributes for backward compatibility with existing integrations.
         self.managed_devices = self.device_service.managed_devices
         self.state_history_size = self.state_service.history_size
@@ -52,6 +61,10 @@ class MainController:
         self.last_update_timestamp: Dict[str, float] = {}
         self.rate_limit_mqtt = rate_limit_mqtt
         self.rate_limit_serial = rate_limit_serial
+        self.threshold_rules = self.threshold_service.get_rules()
+        self.threshold_action_state = self.threshold_service.action_state
+        self.use_ai = ai_enabled and self.ai_service.is_enabled()
+        
         
         self.mqtt.set_callback(self._on_mqtt)
         self.serial.set_callback(self._on_serial)
@@ -65,6 +78,67 @@ class MainController:
             value=value,
             is_sensor=self._is_sensor_device(device_name),
         )
+
+    def _normalize_threshold_value(self, target_device: str, value: Any) -> str:
+        """Normalize threshold command value for the target device."""
+        normalized = str(value).strip()
+        if self._is_switch_device(target_device):
+            if normalized in {"on", "off"}:
+                return self._action_to_value(normalized)
+        return normalized
+
+    def _check_threshold(self, device_name: str, value: Any) -> None:
+        """Check internal automation (threshold or AI) and act on target device.
+        
+        Dispatches to either AI-based or threshold-based automation depending on
+        use_ai flag and available sensor data.
+        """
+        if not self._is_sensor_device(device_name):
+            return
+
+        def send_command(target_device, desired_value):
+            if not self._ok_to_send(f"automation_{target_device}", self.rate_limit_mqtt):
+                logger.debug(f"Rate limited automation action for {target_device}")
+                return
+            self._to_serial(target_device, desired_value)
+
+        # Try AI-based automation first if enabled
+        if self.use_ai:
+            sensor_dict = self._get_sensor_dict()
+            if sensor_dict:
+                self.ai_service.check_and_trigger(sensor_dict, send_command)
+                return
+        
+        # Fall back to threshold-based automation
+        self.threshold_service.check_threshold(device_name, value, send_command)
+
+    def _get_sensor_dict(self) -> Optional[Dict[str, float]]:
+        """Get current sensor values for AI model input.
+        
+        Returns:
+            Dict with keys 'light', 'temp', 'humi' mapped to latest values,
+            or None if any required sensor missing.
+        """
+        sensor_mapping = {
+            'light': 'light',
+            'temp': 'temp',
+            'humi': 'humi'
+        }
+        
+        sensor_dict = {}
+        for key, sensor_name in sensor_mapping.items():
+            value = self.state_service.state(sensor_name)
+            if value is None:
+                logger.debug(f"Missing sensor data for AI: {sensor_name}")
+                return None
+            try:
+                sensor_dict[key] = float(value)
+            except (ValueError, TypeError):
+                logger.debug(f"Invalid sensor value: {sensor_name}={value}")
+                return None
+        
+        return sensor_dict
+
 
     def get_sensor_state_history(self, device: str) -> list:
         """Get recent states for one sensor device."""
@@ -248,6 +322,9 @@ class MainController:
 
                 # Update histories only with data returned from kit.
                 self._append_state_from_kit(device_name, value)
+
+                # Run internal threshold automation rules before publishing state.
+                self._check_threshold(device_name, value)
 
                 # Publish kit state to MQTT.
                 self._to_mqtt(device_name, value)
@@ -464,9 +541,64 @@ class MainController:
         logger.info(f"Emit: {device_key}={value}")
         return self._to_mqtt(device_key, value)
 
-    def managed_device_list(self) -> List[str]:
-        """Return all managed device names from configuration."""
-        return self.device_service.managed_device_list()
+    def set_threshold_enabled(self, enabled: bool) -> None:
+        """Enable or disable threshold automation."""
+        self.threshold_service.set_enabled(enabled)
+
+    def is_threshold_enabled(self) -> bool:
+        """Check if threshold automation is enabled."""
+        return self.threshold_service.is_enabled()
+
+    def get_threshold_status(self) -> Dict[str, Any]:
+        """Get threshold service status."""
+        return self.threshold_service.get_status()
+
+    def update_threshold_rules(self, rules: List[Dict[str, Any]]) -> None:
+        """Update threshold rules.
+        
+        Args:
+            rules: List of threshold rule dicts.
+        """
+        self.threshold_service.update_rules(rules)
+        self.threshold_rules = self.threshold_service.get_rules()
+
+    def set_ai_enabled(self, enabled: bool) -> None:
+        """Enable or disable AI-based automation.
+        
+        Args:
+            enabled: Whether to use AI instead of threshold rules.
+        """
+        if not self.ai_service.is_enabled() and enabled:
+            logger.warning("AI service not available (model not loaded)")
+            return
+        self.ai_service.set_enabled(enabled)
+        self.use_ai = enabled
+        logger.info(f"AI automation {'enabled' if enabled else 'disabled'}")
+
+    def is_ai_enabled(self) -> bool:
+        """Check if AI-based automation is enabled and active."""
+        return self.use_ai and self.ai_service.is_enabled()
+
+    def get_ai_status(self) -> Dict[str, Any]:
+        """Get AI service status including model info."""
+        status = self.ai_service.get_status()
+        status['model_info'] = self.ai_service.get_model_info()
+        return status
+
+    def get_automation_status(self) -> Dict[str, Any]:
+        """Get combined status of both threshold and AI automation."""
+        active_mode = 'None'
+        if self.is_ai_enabled():
+            active_mode = 'AI'
+        elif self.is_threshold_enabled():
+            active_mode = 'Threshold'
+
+        return {
+            'threshold': self.get_threshold_status(),
+            'ai': self.get_ai_status(),
+            'active_mode': active_mode
+        }
+
 
     def device_info(self, device: str) -> Optional[Dict[str, Any]]:
         """Return full metadata and state/history for a managed device.
