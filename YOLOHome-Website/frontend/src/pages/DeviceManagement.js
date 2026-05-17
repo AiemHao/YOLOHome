@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchLatestDevices, controlDevice } from '../services/api';
-import { Wrench, RefreshCw } from 'lucide-react';
+import { Lightbulb, Fan, Settings, Filter, Plus, RefreshCw } from 'lucide-react';
 import './DeviceManagement.css';
 
 const DeviceManagement = () => {
@@ -31,9 +31,7 @@ const DeviceManagement = () => {
     try {
       const data = await fetchLatestDevices();
       if (data && data.success) {
-        // Only update state if data exists, don't trigger loading spinners
         setDevices(prevDevices => {
-          // Merge new statuses with existing loading states to preserve UI feedback
           return data.data.map(newDev => {
             const existing = prevDevices.find(d => d.deviceName === newDev.deviceName);
             return existing ? { ...newDev, isLoading: existing.isLoading } : newDev;
@@ -46,11 +44,10 @@ const DeviceManagement = () => {
   };
 
   const handleToggle = async (device) => {
-    if (device.isLoading) return; // Prevent double clicks
+    if (device.isLoading) return;
 
     const newAction = device.status === 'on' ? 'off' : 'on';
     
-    // Optimistic UI update
     setDevices(prevDevices => 
       prevDevices.map(d => 
         d.deviceName === device.deviceName ? { ...d, status: newAction, isLoading: true } : d
@@ -71,7 +68,6 @@ const DeviceManagement = () => {
       }
     } catch (err) {
       alert("Lỗi: " + err.message);
-      // Revert optimistic update on failure
       setDevices(prevDevices => 
         prevDevices.map(d => 
           d.deviceName === device.deviceName ? { ...d, status: device.status, isLoading: false } : d
@@ -86,45 +82,92 @@ const DeviceManagement = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return (
-    <div className="devices-page">
-      <header className="page-header" style={{display: 'flex', justifyContent: 'space-between', padding: '0 40px'}}>
-        <div style={{width: '24px'}}></div>
-        <h1>Quản lý thiết bị</h1>
-        <button onClick={loadDevices} style={{background: 'none', border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center'}}>
-          <RefreshCw size={24} color="#333" className={isLoading ? "spin" : ""} />
-        </button>
-      </header>
-      
-      <div className="devices-content">
-        <div className="devices-list">
-          {error && <div style={{color: 'red', textAlign: 'center'}}>{error}</div>}
-          
-          {!isLoading && devices.length === 0 && !error && (
-            <div style={{textAlign: 'center', color: '#888'}}>Không có thiết bị nào.</div>
-          )}
+  const getDeviceConfig = (name) => {
+    const lowerName = name.toLowerCase();
+    if (lowerName.includes('led')) {
+      return {
+        icon: <Lightbulb size={22} color="#0284c7" />,
+        className: "icon-led",
+        subtitle: "Độ sáng: 80%"
+      };
+    }
+    if (lowerName.includes('fan')) {
+      return {
+        icon: <Fan size={22} color="#0d9488" />,
+        className: "icon-fan",
+      };
+    }
+    if (lowerName.includes('servo')) {
+      return {
+        icon: <Settings size={22} color="#0d9488" />,
+        className: "icon-servo",
+      };
+    }
+    return {
+      icon: <Settings size={22} color="#64748b" />,
+      className: "icon-default",
+      subtitle: "Đã kết nối"
+    };
+  };
 
-          {devices.map((device, idx) => (
-            <div className="device-item" key={device.deviceName || idx}>
-              <div className="device-info">
-                <div className="device-icon">
-                  <Wrench size={20} color="#1CD0A0" />
-                </div>
-                <span className="device-name">{device.deviceName}</span>
-              </div>
-              
-              <label className="switch">
-                <input 
-                  type="checkbox" 
-                  checked={device.status === 'on'} 
-                  onChange={() => handleToggle(device)}
-                  disabled={device.isLoading || isLoading}
-                />
-                <span className="slider" style={{ opacity: device.isLoading ? 0.6 : 1 }}></span>
-              </label>
-            </div>
-          ))}
+  return (
+    <div className="devices-container">
+      <div className="devices-header-section">
+        <div className="header-text-group">
+          <h1>Các thiết bị được kết nối</h1>
+          <p>Quản lý và giám sát cả {devices.length} thiết bị thông minh đang hoạt động trong nhà bạn.</p>
         </div>
+        
+        <div className="header-action-buttons">
+          <button className="btn-filter">
+            <Filter size={16} />
+            <span>Filter</span>
+          </button>
+          
+          <button className="btn-add-device">
+            <Plus size={16} />
+            <span>Add Device</span>
+          </button>
+        </div>
+      </div>
+
+      {error && <div className="device-status-msg error">{error}</div>}
+      {!isLoading && devices.length === 0 && !error && (
+        <div className="device-status-msg empty">Không tìm thấy thiết bị nào đang hoạt động.</div>
+      )}
+
+      <div className="devices-grid-layout">
+        {devices.map((device, idx) => {
+          const config = getDeviceConfig(device.deviceName);
+          return (
+            <div className={`device-card-item ${device.status === 'on' ? 'active-state' : ''}`} key={device.deviceName || idx}>
+              <div className="card-top-row">
+                <div className={`card-icon-wrapper ${config.className}`}>
+                  {config.icon}
+                </div>
+                
+                <label className="custom-toggle-switch">
+                  <input 
+                    type="checkbox" 
+                    checked={device.status === 'on'} 
+                    onChange={() => handleToggle(device)}
+                    disabled={device.isLoading || isLoading}
+                  />
+                  <span className="toggle-slider" style={{ opacity: device.isLoading ? 0.6 : 1 }}></span>
+                </label>
+              </div>
+
+              <div className="card-bottom-details">
+                <h3 className="card-device-title">{device.deviceName.toUpperCase()}</h3>
+                <span className="card-device-subtitle">{config.subtitle}</span>
+                <div className="card-status-indicator">
+                  <span className="dot-active"></span>
+                  <span className="status-text">Active</span>
+                </div>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

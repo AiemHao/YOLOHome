@@ -1,30 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchLatestSensors, fetchActiveAlerts, resolveAlert } from '../services/api';
-import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
-} from 'recharts';
 import './Dashboard.css';
-
-const dataTemp = [
-  { name: 'Jan', value: 30 }, { name: 'Feb', value: 42 }, { name: 'Mar', value: 38 },
-  { name: 'Apr', value: 40 }, { name: 'May', value: 35 }, { name: 'Jun', value: 35 },
-  { name: 'Jul', value: 36 }, { name: 'Aug', value: 36 }, { name: 'Sep', value: 35 },
-  { name: 'Oct', value: 32 }, { name: 'Nov', value: 30 },
-];
-
-const dataHumid = [
-  { name: 'Jan', value: 60 }, { name: 'Feb', value: 80 }, { name: 'Mar', value: 75 },
-  { name: 'Apr', value: 78 }, { name: 'May', value: 75 }, { name: 'Jun', value: 85 },
-  { name: 'Jul', value: 72 }, { name: 'Aug', value: 74 }, { name: 'Sep', value: 70 },
-  { name: 'Oct', value: 60 }, { name: 'Nov', value: 58 },
-];
-
-const dataLight = [
-  { name: 'Jan', value: 60 }, { name: 'Feb', value: 80 }, { name: 'Mar', value: 75 },
-  { name: 'Apr', value: 78 }, { name: 'May', value: 75 }, { name: 'Jun', value: 85 },
-  { name: 'Jul', value: 72 }, { name: 'Aug', value: 74 }, { name: 'Sep', value: 70 },
-  { name: 'Oct', value: 60 }, { name: 'Nov', value: 58 },
-];
 
 const Dashboard = () => {
   const [sensorData, setSensorData] = useState({
@@ -44,9 +20,7 @@ const Dashboard = () => {
   const normalizeAlertType = (type) => String(type || '').trim().toLowerCase();
 
   const translateAlertMessage = (message) => {
-    if (!message) {
-      return '';
-    }
+    if (!message) return '';
     let translated = message;
     translated = translated.replace('Threshold triggered:', 'Vượt ngưỡng:');
     translated = translated.replace('Sensor=', 'Cảm biến=');
@@ -68,11 +42,11 @@ const Dashboard = () => {
           let temp = '--', humi = '--', light = '--', latestTime = '--';
           data.data.forEach(item => {
             const type = (item.sensorType || '').toLowerCase();
-            if (type.includes('temp') && temp === '--') { temp = item.value; if(latestTime==='--') latestTime = item.timestamp; }
-            if (type.includes('humi') && humi === '--') { humi = item.value; if(latestTime==='--') latestTime = item.timestamp; }
-            if (type.includes('light') && light === '--') { light = item.value; if(latestTime==='--') latestTime = item.timestamp; }
+            if (type.includes('temp') && temp === '--') { temp = item.value; if (latestTime === '--') latestTime = item.timestamp; }
+            if (type.includes('humi') && humi === '--') { humi = item.value; if (latestTime === '--') latestTime = item.timestamp; }
+            if (type.includes('light') && light === '--') { light = item.value; if (latestTime === '--') latestTime = item.timestamp; }
           });
-          
+
           const timeStr = latestTime !== '--' ? new Date(latestTime).toLocaleTimeString() : '--:--:--';
           setSensorData({ temperature: temp, humidity: humi, light: light, timestamp: timeStr });
         } else {
@@ -117,124 +91,96 @@ const Dashboard = () => {
     }
   };
 
+  const cards = [
+    {
+      title: 'Nhiệt độ',
+      value: `${sensorData.temperature}°C`,
+      accent: '#21c7a8',
+      badgeBg: '#e7fbf6',
+      icon: '🌡️',
+      watermark: '🌡️'
+    },
+    {
+      title: 'Độ ẩm',
+      value: `${sensorData.humidity}%`,
+      accent: '#3aa8ff',
+      badgeBg: '#eaf5ff',
+      icon: '💧',
+      watermark: '💧'
+    },
+    {
+      title: 'Cường độ ánh sáng',
+      value: `${sensorData.light} lx`,
+      accent: '#f59e0b',
+      badgeBg: '#fff7e6',
+      icon: '☀️',
+      watermark: '☀️'
+    }
+  ];
+
   return (
     <div className="dashboard-page">
-      <header className="page-header">
-        <h1>Dashboard</h1>
-      </header>
+      <section className="dashboard-heading">
+        <p className="dashboard-eyebrow">TỔNG QUAN VỀ MÔI TRƯỜNG</p>
+        <h1>Thông tin chung</h1>
+      </section>
 
-      <div className="dashboard-content">
-        <div className="charts-column">
-          
-          <div className="chart-card" style={{backgroundColor: '#FPFBED'}}>
-            <div className="chart-title">
-               <span style={{color: '#E06C00', fontSize: '24px', marginRight: '10px'}}>🌡️</span>
-               Nhiệt độ
-            </div>
-            <div className="chart-wrapper">
-              <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={dataTemp}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                  <YAxis axisLine={false} tickLine={false} domain={[20, 60]} />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="value" stroke="#E06C00" strokeWidth={3} dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          <div className="chart-card" style={{backgroundColor: '#E1F3FE'}}>
-            <div className="chart-title">
-               <span style={{color: '#343BFF', fontSize: '24px', marginRight: '10px'}}>💧</span>
-               Độ ẩm
-            </div>
-            <div className="chart-wrapper">
-              <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={dataHumid}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                  <YAxis axisLine={false} tickLine={false} domain={[40, 100]} />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="value" stroke="#343BFF" strokeWidth={3} dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-          <div className="chart-card" style={{backgroundColor: '#DEFFDB'}}>
-            <div className="chart-title">
-               <span style={{color: '#DEFFDB', fontSize: '24px', marginRight: '10px'}}>💡</span>
-               Cường độ ánh sáng
-            </div>
-            <div className="chart-wrapper">
-              <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={dataLight}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                  <XAxis dataKey="name" axisLine={false} tickLine={false} />
-                  <YAxis axisLine={false} tickLine={false} domain={[40, 100]} />
-                  <Tooltip />
-                  <Line type="monotone" dataKey="value" stroke="#41BCFF" strokeWidth={3} dot={false} />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
-
-        </div>
-
-        <div className="summary-column">
-          <div className="summary-card">
-            <h3>Thông tin chung</h3>
-            
-            <div className="summary-row">
-              <div className="summary-item">
-                <span className="summary-val" style={{color: '#E63946'}}>{sensorData.temperature}°</span>
-                <span className="summary-label">Nhiệt độ</span>
+      <section className="dashboard-grid">
+        {cards.map((card) => (
+          <article
+            key={card.title}
+            className="info-card"
+            style={{ '--accent': card.accent }}
+          >
+            <div className="info-card-top">
+              <div className="info-badge" style={{ backgroundColor: card.badgeBg }}>
+                <span className="info-badge-icon">{card.icon}</span>
               </div>
-              <div className="summary-item">
-                <span className="summary-val" style={{color: '#3ABCEE'}}>{sensorData.humidity}%</span>
-                <span className="summary-label">Độ ẩm</span>
-              </div>
+              <div className="info-watermark">{card.watermark}</div>
             </div>
 
-            <div className="summary-item mt-4">
-              <span className="summary-val" style={{color: '#E06C00'}}>{sensorData.light} <span style={{fontSize: '18px'}}>lux</span></span>
-              <span className="summary-label">Ánh sáng</span>
+            <div className="info-card-body">
+              <div className="info-title">{card.title}</div>
+              <div className="info-value">{card.value}</div>
+              <div className={`info-note ${card.noteClass}`}>{card.note}</div>
             </div>
+          </article>
+        ))}
+      </section>
+
+      {alerts.length > 0 && (
+        <div className="alert-card alert-card-active">
+          <div className="alert-header">
+            <h3>Cảnh báo ngưỡng</h3>
+            <span className="alert-count">{alerts.length}</span>
           </div>
-
-          {alerts.length > 0 && (
-            <div className="alert-card alert-card-active">
-            <div className="alert-header">
-              <h3>Cảnh báo ngưỡng</h3>
-              <span className="alert-count">{alerts.length}</span>
-            </div>
-            <div className="alert-list">
-              {alerts.map((alert) => (
-                <div key={alert._id} className={`alert-item alert-${(alert.severity || 'INFO').toLowerCase()}`}>
-                  <div className="alert-main">
-                    <div className="alert-title">
-                      {ALERT_TYPE_LABELS[normalizeAlertType(alert.type)] || alert.type}
-                    </div>
-                    <div className="alert-message">{translateAlertMessage(alert.message)}</div>
-                    <div className="alert-meta">
-                      <span>Giá trị: {alert.value}</span>
-                      <span>Ngưỡng: {alert.condition} {alert.threshold}</span>
-                    </div>
+          <div className="alert-list">
+            {alerts.map((alert) => (
+              <div
+                key={alert._id}
+                className={`alert-item alert-${(alert.severity || 'INFO').toLowerCase()}`}
+              >
+                <div className="alert-main">
+                  <div className="alert-title">
+                    {ALERT_TYPE_LABELS[normalizeAlertType(alert.type)] || alert.type}
                   </div>
-                  <button
-                    className="alert-resolve"
-                    onClick={() => handleResolveAlert(alert._id)}
-                  >
-                    Xác nhận
-                  </button>
+                  <div className="alert-message">{translateAlertMessage(alert.message)}</div>
+                  <div className="alert-meta">
+                    <span>Giá trị: {alert.value}</span>
+                    <span>Ngưỡng: {alert.condition} {alert.threshold}</span>
+                  </div>
                 </div>
-              ))}
-            </div>
+                <button
+                  className="alert-resolve"
+                  onClick={() => handleResolveAlert(alert._id)}
+                >
+                  Xác nhận
+                </button>
+              </div>
+            ))}
           </div>
-          )}
         </div>
-      </div>
+      )}
     </div>
   );
 };

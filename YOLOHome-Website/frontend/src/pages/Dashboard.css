@@ -1,109 +1,122 @@
 .dashboard-page {
+  min-height: calc(100vh - 64px);
+  padding: 8px 0 0;
+}
+
+.dashboard-heading {
+  margin-bottom: 22px;
+}
+
+.dashboard-eyebrow {
+  margin: 0 0 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #0f8a87;
+}
+
+.dashboard-heading h1 {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.info-card {
+  position: relative;
+  min-height: 180px;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  overflow: hidden;
+  padding: 22px 22px 20px;
+}
+
+.info-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-top: 3px solid var(--accent);
+  pointer-events: none;
+}
+
+.info-card-top {
   display: flex;
-  flex-direction: column;
-  height: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  min-height: 44px;
 }
 
-.page-header {
-  background-color: #A1ECD6;
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.info-badge {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
 }
 
-.page-header h1 {
-  font-weight: 400;
-  font-size: 32px;
-}
-
-.dashboard-content {
-  padding: 40px;
-  display: flex;
-  gap: 30px;
-  flex: 1;
-}
-
-.charts-column {
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.chart-card {
-  background-color: #FCF9ED; /* Temp fallback */
-  border-radius: 20px;
-  padding: 20px 30px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.chart-title {
-  display: flex;
-  align-items: center;
-  font-size: 22px;
-  margin-bottom: 20px;
-}
-
-.summary-column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.summary-card {
-  background: white;
-  border-radius: 30px;
-  padding: 40px 30px;
-  text-align: center;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.summary-card h3 {
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 40px;
-}
-
-.summary-row {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  width: 100%;
-}
-
-.summary-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.summary-val {
-  font-size: 64px;
-  font-weight: 600;
+.info-badge-icon {
+  font-size: 18px;
   line-height: 1;
 }
 
-.summary-label {
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 10px;
-  color: #333;
+.info-watermark {
+  font-size: 42px;
+  line-height: 1;
+  opacity: 0.18;
 }
 
-.mt-4 {
-  margin-top: 40px;
+.info-card-body {
+  margin-top: 10px;
+}
+
+.info-title {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.info-value {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+  color: #0f172a;
+  letter-spacing: -0.03em;
+}
+
+.info-note {
+  margin-top: 12px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.note-green {
+  color: #10b981;
+}
+
+.note-blue {
+  color: #3b82f6;
+}
+
+.note-orange {
+  color: #f97316;
 }
 
 .alert-card {
   background: #ffffff;
   border-radius: 24px;
   padding: 24px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
 
 .alert-card-active {
@@ -122,6 +135,7 @@
 .alert-header h3 {
   font-size: 18px;
   font-weight: 600;
+  margin: 0;
 }
 
 .alert-count {
@@ -139,13 +153,6 @@
   gap: 12px;
   max-height: 320px;
   overflow: auto;
-}
-
-.alert-empty {
-  color: #666;
-  font-size: 14px;
-  text-align: center;
-  padding: 12px 0;
 }
 
 .alert-item {
@@ -195,6 +202,7 @@
   gap: 12px;
   font-size: 12px;
   color: #666;
+  flex-wrap: wrap;
 }
 
 .alert-resolve {
@@ -205,8 +213,20 @@
   padding: 6px 12px;
   border-radius: 999px;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 .alert-resolve:hover {
   background: #20b892;
+}
+
+@media (max-width: 1100px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .alert-item {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
