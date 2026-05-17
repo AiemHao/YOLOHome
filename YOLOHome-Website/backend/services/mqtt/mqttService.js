@@ -331,11 +331,14 @@ const sendDeviceCommand = async ({ deviceType, deviceName, action, status }) => 
     }
 
     const topic = MQTT_DEVICE_TOPICS.buildCommand(resolvedDeviceType);
-    await mqttClientService.publish(topic, { action: gatewayAction });
+    const mqttPayload = { action: gatewayAction };
+    await mqttClientService.publish(topic, mqttPayload);
 
     return {
         published: true,
-        deviceType: resolvedDeviceType
+        deviceType: resolvedDeviceType,
+        topic,
+        mqttPayload
     };
 };
 

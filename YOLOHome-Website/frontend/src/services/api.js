@@ -98,6 +98,33 @@ export const sendVoiceCommand = async (audioBlob) => {
         return data;
     } catch (error) {
         console.error("Lỗi gửi lệnh giọng nói:", error);
-        return { status: 'error', message: "Không thể kết nối tới server" };
+        return { status: 'error', message: "Gửi lệnh giọng nói thất bại" };
+    }
+};
+
+// --- ALERT APIs ---
+export const fetchActiveAlerts = async () => {
+    try {
+        const response = await fetch(`${BASE_URL}/alerts/active`);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Loi khi lay thong bao canh bao:', error);
+        return { status: 'error', message: "Không thể lấy thông báo cảnh báo" };
+    }
+};
+
+export const resolveAlert = async (alertId) => {
+    try {
+        const response = await fetch(`${BASE_URL}/alerts/${alertId}/resolve`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Loi khi giai quyet thong bao:', error);
     }
 };

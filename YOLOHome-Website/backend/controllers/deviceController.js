@@ -1,5 +1,10 @@
 import { DeviceService } from '../services/deviceService.js';
 import { mqttService } from '../services/mqtt/mqttService.js';
+import ControlTrace from '../models/ControlTrace.js';
+
+const logControlTrace = (trace) => {
+    ControlTrace.create(trace).catch((err) => console.error('[Log Error]', err));
+};
 
 export class DeviceController {
     // Lấy snapshot trạng thái 3 thiết bị gần nhất
@@ -17,6 +22,13 @@ export class DeviceController {
 
     // Điều khiển thiết bị (cập nhật trạng thái)
     static async controlDevice(req, res, next) {
+        const traceBase = {
+            userId: req.user?.id || 'anonymous',
+            source: 'frontend',
+            action: 'device_control',
+            payload: req.body
+        };
+
         try {
             const {
                 deviceName,
@@ -27,6 +39,11 @@ export class DeviceController {
 
             // Validate input
             if ((!deviceName && !deviceType) || (action === undefined && status === undefined)) {
+                logControlTrace({
+                    ...traceBase,
+                    status: 'failure',
+                    errorMsg: 'Missing device identifier or action'
+                });
                 return res.status(400).json({
                     success: false,
                     message: 'Cần deviceName/deviceType và action/status'
@@ -35,6 +52,11 @@ export class DeviceController {
 
             const requestedAction = action ?? status;
             if (requestedAction !== 'on' && requestedAction !== 'off') {
+                logControlTrace({
+                    ...traceBase,
+                    status: 'failure',
+                    errorMsg: 'Invalid action: must be on/off'
+                });
                 return res.status(400).json({
                     success: false,
                     message: 'Chỉ chấp nhận đúng action "on" hoặc "off"'
@@ -48,6 +70,15 @@ export class DeviceController {
                 status
             });
 
+            logControlTrace({
+                ...traceBase,
+                action: `device_${commandResult.deviceType || deviceType || deviceName}_${requestedAction}`,
+                mqttTopic: commandResult.topic,
+                mqttPayload: commandResult.mqttPayload,
+                status: commandResult.published ? 'success' : 'failure',
+                errorMsg: commandResult.published ? undefined : 'MQTT publish skipped'
+            });
+
             res.status(200).json({
                 success: true,
                 data: {
@@ -57,6 +88,11 @@ export class DeviceController {
                 }
             });
         } catch (error) {
+            logControlTrace({
+                ...traceBase,
+                status: 'failure',
+                errorMsg: error.message
+            });
             next(error);
         }
     }

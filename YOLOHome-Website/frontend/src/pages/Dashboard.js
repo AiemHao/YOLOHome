@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchLatestSensors } from '../services/api';
+import { fetchLatestSensors, fetchActiveAlerts, resolveAlert } from '../services/api';
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer
 } from 'recharts';
@@ -32,6 +32,33 @@ const Dashboard = () => {
     humidity: 6,
     light: 334
   });
+  const [alerts, setAlerts] = useState([]);
+
+  const ALERT_TYPE_LABELS = {
+    temperature: 'Nhiệt độ',
+    humidity: 'Độ ẩm',
+    light: 'Ánh sáng',
+    system: 'Hệ thống'
+  };
+
+  const normalizeAlertType = (type) => String(type || '').trim().toLowerCase();
+
+  const translateAlertMessage = (message) => {
+    if (!message) {
+      return '';
+    }
+    let translated = message;
+    translated = translated.replace('Threshold triggered:', 'Vượt ngưỡng:');
+    translated = translated.replace('Sensor=', 'Cảm biến=');
+    translated = translated.replace('value=', 'giá trị=');
+    translated = translated.replace('Dark Environment', 'Môi trường tối');
+    translated = translated.replace('Bright Environment', 'Môi trường sáng');
+    translated = translated.replace('High Temperature', 'Nhiệt độ cao');
+    translated = translated.replace('Low Temperature', 'Nhiệt độ thấp');
+    translated = translated.replace('High Humidity', 'Độ ẩm cao');
+    translated = translated.replace('Low Humidity', 'Độ ẩm thấp');
+    return translated;
+  };
 
   const fetchSensorData = async () => {
     try {
@@ -59,9 +86,36 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchSensorData();
+    const fetchAlerts = async () => {
+      try {
+        const data = await fetchActiveAlerts();
+        if (data && data.success && Array.isArray(data.data)) {
+          setAlerts(data.data);
+        }
+      } catch (err) {
+        console.error('Failed to fetch alerts:', err);
+      }
+    };
+
+    fetchAlerts();
     const interval = setInterval(fetchSensorData, 5000);
-    return () => clearInterval(interval);
+    const alertInterval = setInterval(fetchAlerts, 5000);
+    return () => {
+      clearInterval(interval);
+      clearInterval(alertInterval);
+    };
   }, []);
+
+  const handleResolveAlert = async (alertId) => {
+    try {
+      const data = await resolveAlert(alertId);
+      if (data && data.success) {
+        setAlerts((prev) => prev.filter((item) => item._id !== alertId));
+      }
+    } catch (err) {
+      console.error('Failed to resolve alert:', err);
+    }
+  };
 
   return (
     <div className="dashboard-page">
@@ -148,6 +202,37 @@ const Dashboard = () => {
               <span className="summary-label">Ánh sáng</span>
             </div>
           </div>
+
+          {alerts.length > 0 && (
+            <div className="alert-card alert-card-active">
+            <div className="alert-header">
+              <h3>Cảnh báo ngưỡng</h3>
+              <span className="alert-count">{alerts.length}</span>
+            </div>
+            <div className="alert-list">
+              {alerts.map((alert) => (
+                <div key={alert._id} className={`alert-item alert-${(alert.severity || 'INFO').toLowerCase()}`}>
+                  <div className="alert-main">
+                    <div className="alert-title">
+                      {ALERT_TYPE_LABELS[normalizeAlertType(alert.type)] || alert.type}
+                    </div>
+                    <div className="alert-message">{translateAlertMessage(alert.message)}</div>
+                    <div className="alert-meta">
+                      <span>Giá trị: {alert.value}</span>
+                      <span>Ngưỡng: {alert.condition} {alert.threshold}</span>
+                    </div>
+                  </div>
+                  <button
+                    className="alert-resolve"
+                    onClick={() => handleResolveAlert(alert._id)}
+                  >
+                    Xác nhận
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+          )}
         </div>
       </div>
     </div>

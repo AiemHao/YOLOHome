@@ -3,6 +3,27 @@ import axios from 'axios';
 import { mqttClientService } from './mqtt/mqttClientService.js';
 import ControlTrace from '../models/ControlTrace.js';
 
+const normalizeIntent = (rawIntent) => {
+  if (!rawIntent) {
+    return null;
+  }
+
+  if (typeof rawIntent === 'string') {
+    const parts = rawIntent.split(':').map((part) => part.trim()).filter(Boolean);
+    if (parts.length === 2) {
+      return { device: parts[0], action: parts[1], raw: rawIntent };
+    }
+  }
+
+  if (typeof rawIntent === 'object') {
+    if (rawIntent.device && rawIntent.action) {
+      return rawIntent;
+    }
+  }
+
+  return null;
+};
+
 export async function handleVoiceCommand(file) {
   let traceData = {
     source: 'frontend', // or voice-api
@@ -21,8 +42,8 @@ export async function handleVoiceCommand(file) {
     // Call ML micro-service
     const mlUrl = process.env.ML_SERVICE_URL || 'http://localhost:8000/predict';
     const mlResp = await axios.post(mlUrl, { text: transcript });
-    const intent = mlResp.data.intent; // {action, device, ...}
-    
+    const intent = normalizeIntent(mlResp.data.intent);
+
     if (!intent || !intent.action) throw new Error('Intent not recognized');
     
     traceData.action = `voice_${intent.action}_${intent.device || 'unknown'}`;
