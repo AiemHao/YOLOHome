@@ -22,7 +22,7 @@ mqtt:
 
 # Serial Port Configuration
 serial:
-  port: COM15               # COM port (Windows: COM3, Linux: /dev/ttyUSB0)
+  port: COM5               # COM port (Windows: COM3, Linux: /dev/ttyUSB0)
   baudrate: 115200             # Baud rate
   timeout: 1                   # Read timeout (seconds)
 
@@ -37,6 +37,37 @@ app:
 rate_limit:
   mqtt_to_serial: 0.1          # Min interval giữa 2 lần xử lý MQTT → Serial (giây)
   serial_to_mqtt: 0.5          # Min interval giữa 2 lần xử lý Serial → MQTT (giây)
+
+# Automation rules for internal threshold-based control
+automation:
+  threshold:
+    enabled: true                                       # Enable threshold-based automation
+  ai:
+    enabled: false                                      # Enable AI-based automation
+    model_path: "GateWay/Decision_tree/curtain_model.pkl"  # Path to trained Decision Tree model
+  
+  thresholds:
+    temp:
+      - device: fan
+        above: 30
+        on_value: 1
+        off_value: 0
+    humi:
+      - device: led
+        above: 70
+        below: 65
+        on_value: 0
+        off_value: 1
+      - device: servo
+        above: 70
+        below: 65
+        on_value: 1
+        off_value: 0
+    light:
+      - device: led
+        below: 30
+        on_value: 1
+        off_value: 0
 
 # Device Mapping Configuration
 # MQTT device name -> Serial abbreviation

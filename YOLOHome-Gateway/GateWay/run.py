@@ -60,6 +60,7 @@ try:
     RATE_LIMIT_CONFIG = config.get('rate_limit', {})
     DEVICES_CONFIG = config.get('devices', {})
     MANAGED_DEVICES_CONFIG = config.get('managed_devices', {})
+    AUTOMATION_CONFIG = config.get('automation', {})
     
     # Validate required sections
     if not MQTT_CONFIG:
@@ -93,6 +94,7 @@ class YOLOHomeGateway:
         rate_limit_config: dict = None,
         device_config: dict = None,
         managed_devices_config: dict = None,
+        automation_config: dict = None,
     ):
         """
         Khởi tạo Gateway
@@ -104,6 +106,7 @@ class YOLOHomeGateway:
             rate_limit_config: Rate limiting configuration dict
             device_config: Device mapping configuration dict
             managed_devices_config: Managed device metadata from config
+            automation_config: Automation rules from config
         """
         self.mqtt_config = mqtt_config
         self.serial_config = serial_config
@@ -111,6 +114,7 @@ class YOLOHomeGateway:
         self.rate_limit_config = rate_limit_config or {}
         self.device_config = device_config or {}
         self.managed_devices_config = managed_devices_config or {}
+        self.automation_config = automation_config or {}
         
         # Extract MQTT topics configuration
         self.mqtt_topics = self.mqtt_config.get('topics', {})
@@ -181,6 +185,14 @@ class YOLOHomeGateway:
                 self.serial_module = MagicMock()
                 logger.info("  Using mock Serial module")
             
+            # Extract AI configuration
+            ai_config = self.automation_config.get('ai', {})
+            ai_enabled = ai_config.get('enabled', False)
+            ai_model_path = ai_config.get('model_path')
+
+            threshold_config = self.automation_config.get('threshold', {})
+            threshold_enabled = threshold_config.get('enabled', self.automation_config.get('enabled', True))
+            
             self.controller = MainController(
                 mqtt_client=self.mqtt_client,
                 serial_module=self.serial_module,
@@ -190,7 +202,21 @@ class YOLOHomeGateway:
                 mqtt_topics=self.mqtt_topics,
                 state_history_size=self.app_config.get('state_history_size', 20),
                 managed_devices=self.managed_devices_config,
+                threshold_rules=self.automation_config.get('thresholds', {}),
+                ai_enabled=ai_enabled,
+                ai_model_path=ai_model_path,
             )
+            logger.debug(f"Loaded thresholds: {AUTOMATION_CONFIG.get('thresholds', {})}")
+            logger.debug(f"AI config: enabled={ai_enabled}, model={ai_model_path}")
+
+            # Set threshold enabled state from config (support new key threshold.enabled)
+            self.controller.set_threshold_enabled(threshold_enabled)
+            
+            # Log automation status
+            automation_status = self.controller.get_automation_status()
+            logger.info(f"Automation: {automation_status['active_mode']} mode (Threshold: "
+                       f"{automation_status['threshold']['enabled']}, "
+                       f"AI: {automation_status['ai']['enabled']})")
             logger.info("✓ Main Controller initialized")
 
             # Start MQTT after controller callback registration.
@@ -235,7 +261,31 @@ class YOLOHomeGateway:
         if not self.controller:
             logger.error("Controller not initialized! Call setup() first.")
             return
-        
+
+        if self.controller.is_threshold_enabled():
+            rules = self.controller.threshold_rules
+            if rules:
+                logger.info("Threshold automation is enabled. Loaded threshold rules:")
+                for rule in rules:
+                    sensor = rule.get('sensor', '<unknown>')
+                    device = rule.get('device', '<unknown>')
+                    above = rule.get('above')
+                    below = rule.get('below')
+                    on_value = rule.get('on_value')
+                    off_value = rule.get('off_value')
+                    conditions = []
+                    if above is not None:
+                        conditions.append(f"above={above}")
+                    if below is not None:
+                        conditions.append(f"below={below}")
+                    condition_str = ", ".join(conditions) if conditions else "no condition"
+                    logger.info(
+                        f"  - sensor={sensor}, device={device}, {condition_str}, "
+                        f"on={on_value}, off={off_value}"
+                    )
+            else:
+                logger.info("Threshold automation enabled, but no threshold rules were loaded.")
+
         logger.info("Starting gateway main loop... (Press Ctrl+C to stop)")
         
         try:
@@ -305,6 +355,7 @@ def main():
         rate_limit_config=RATE_LIMIT_CONFIG,
         device_config=DEVICES_CONFIG,
         managed_devices_config=MANAGED_DEVICES_CONFIG,
+        automation_config=AUTOMATION_CONFIG,
     )
     
     # Setup hệ thống

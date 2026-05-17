@@ -17,7 +17,7 @@ mqtt:
 
 serial:
   # Giu COM15 co dinh de ban chi can doi COM ben trai trong docker-compose.yml.
-  port: COM15
+  port: COM5
   baudrate: 115200
   timeout: 1
 
@@ -29,6 +29,27 @@ app:
 rate_limit:
   mqtt_to_serial: 0.1
   serial_to_mqtt: 0.5
+
+automation:
+  threshold:
+    enabled: true                                       # Enable threshold-based automation
+  ai:
+    enabled: false                                      # Enable AI-based automation
+    model_path: "GateWay/Decision_tree/curtain_model.pkl"  # Path to trained Decision Tree model
+  
+  thresholds:
+    temp:
+      device: fan
+      above: 30
+      below: 25
+      on_value: 1
+      off_value: 0
+    humi:
+      device: fan
+      above: 70
+      below: 60
+      on_value: 1
+      off_value: 0
 
 devices:
   temp: T
