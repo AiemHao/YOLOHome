@@ -226,6 +226,20 @@ class YOLOHomeGateway:
             # Chờ MQTT connected
             time.sleep(1)
             
+            # 5. Setup Voice Controller
+            # Voice controller setup is disabled in the hybrid pipeline.
+            # The backend now handles voice via the new Node.js route.
+            # Original code kept for reference:
+            # logger.info("[5/5] Setting up Voice Controller...")
+            # try:
+            #     from Voice.voice_recognition import VoiceController
+            #     self.voice_controller = VoiceController(mqtt_client=self.mqtt_client)
+            #     self.voice_controller.start()
+            #     logger.info("✓ Voice Controller started")
+            # except Exception as e:
+            #     logger.error(f"✗ Voice Controller setup failed: {e}")
+            #     self.voice_controller = None
+            
             # Bắt đầu serial background reading nếu có
             if serial_online and hasattr(self.serial_module, 'start_reading'):
                 self.serial_module.start_reading()
@@ -312,6 +326,11 @@ class YOLOHomeGateway:
             if self.mqtt_client:
                 self.mqtt_client.stop()
                 logger.info("✓ MQTT stopped")
+                
+            # Stop Voice
+            if hasattr(self, 'voice_controller') and self.voice_controller:
+                self.voice_controller.stop()
+                logger.info("✓ Voice stopped")
             
         except Exception as e:
             logger.error(f"Error during shutdown: {e}")
