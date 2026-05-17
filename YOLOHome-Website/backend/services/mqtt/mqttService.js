@@ -1,6 +1,7 @@
 import mqttConfig from '../../config/mqtt.js';
 import { SensorService } from '../sensorService.js';
 import { DeviceService } from '../deviceService.js';
+import { alertService } from '../alertService.js';
 import { mqttClientService } from './mqttClientService.js';
 import {
     MQTT_DEVICE_TOPICS,
@@ -184,6 +185,11 @@ const handleSensorTelemetry = async (payload, topicParams) => {
         light: sensorSnapshotBuffer.light,
         timestamp: payload?.timestamp ? new Date(payload.timestamp) : new Date()
     });
+
+    // Check thresholds and generate alerts
+    await alertService.checkAndAlert('temperature', sensorSnapshotBuffer.temperature);
+    await alertService.checkAndAlert('humidity', sensorSnapshotBuffer.humidity);
+    await alertService.checkAndAlert('light', sensorSnapshotBuffer.light);
 
     logMqtt('Sensor snapshot saved to database', {
         temperature: sensorSnapshotBuffer.temperature,

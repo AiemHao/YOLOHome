@@ -83,3 +83,21 @@ export const loginUser = async (username, password) => {
         return { success: false, message: "Không thể kết nối tới server" };
     }
 };
+
+// --- VOICE APIs ---
+export const sendVoiceCommand = async (audioBlob) => {
+    try {
+        const formData = new FormData();
+        formData.append('audio', audioBlob, 'command.wav');
+
+        const response = await fetch(`${BASE_URL}/voice/command`, {
+            method: 'POST',
+            body: formData,
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error("Lỗi gửi lệnh giọng nói:", error);
+        return { status: 'error', message: "Không thể kết nối tới server" };
+    }
+};

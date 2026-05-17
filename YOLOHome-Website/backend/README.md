@@ -33,25 +33,6 @@ backend/
 npm install
 ```
 
-### Tạo file `.env`
-
-Tạo file `.env` trong thư mục `backend` với nội dung mẫu:
-
-```env
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/yolohome?retryWrites=true&w=majority
-
-PORT=5000
-NODE_ENV=development
-CORS_ORIGIN=*
-
-MQTT_ENABLED=true
-MQTT_BROKER_URL=mqtt://localhost:1883
-MQTT_USERNAME=
-MQTT_PASSWORD=
-MQTT_CLIENT_ID=yolohome-backend
-MQTT_QOS=1
-MQTT_RETAIN=false
-```
 
 ### Chạy server
 
