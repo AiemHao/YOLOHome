@@ -1,38 +1,38 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { LayoutDashboard, Wrench, LogOut } from 'lucide-react';
-import yoloLogo from '../pages/YOLO-03.png';
+import { LayoutDashboard, Sliders, Mic, HelpCircle, LogOut } from 'lucide-react';
 import './Sidebar.css';
 
 const Sidebar = () => {
   return (
     <div className="sidebar">
-      <div className="sidebar-top">
-        <div className="logo-box">
-          <img src={yoloLogo} alt="YOLO Home Logo" style={{width: '60px', height: 'auto'}} />
-          <span className="logo-text" style={{ color: '#1CD0A0', fontWeight: 'bold', marginTop: '5px', fontSize: '14px', letterSpacing: '1px' }}>YOLO:HOME</span>
+      <div className="sidebar-brand">
+        <div className="brand-icon-box">
+          <Sliders size={18} color="#10b981" />
+        </div>
+        <div className="brand-text">
+          <span className="brand-title">SmartHome</span>
         </div>
       </div>
       
-      <nav className="sidebar-nav">
-        <NavLink to="/dashboard" className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
-          <div className="icon-wrapper" style={{color: '#28D6AC'}}><LayoutDashboard size={24} /></div>
-          <span>Dashboard</span>
-        </NavLink>
-        <NavLink to="/devices" className={({isActive}) => isActive ? "nav-item active" : "nav-item"}>
-          <div className="icon-wrapper" style={{color: '#28D6AC'}}><Wrench size={24} /></div>
-          <span>Quản lý thiết bị</span>
-        </NavLink>
-        <NavLink 
-          to="/logout" 
-          className={({isActive}) => isActive ? "nav-item active" : "nav-item"}
-        >
-          <div className="icon-wrapper" style={{color: '#28D6AC'}}><LogOut size={24} /></div>
-          <span>Đăng xuất</span>
-        </NavLink>
-      </nav>
+      <nav className="sidebar-nav-container">
+        <div className="nav-group">
+          <NavLink to="/dashboard" className={({isActive}) => isActive ? "sidebar-link active" : "sidebar-link"}>
+            <LayoutDashboard size={20} className="link-icon" />
+            <span>Dashboard</span>
+          </NavLink>
+          
+          <NavLink to="/devices" className={({isActive}) => isActive ? "sidebar-link active" : "sidebar-link"}>
+            <Sliders size={20} className="link-icon" />
+            <span>Quản lý thiết bị</span>
+          </NavLink>
 
-      <div className="sidebar-bottom"></div>
+          <NavLink to="/logout" className={({isActive}) => isActive ? "sidebar-link active" : "sidebar-link"}>
+            <LogOut size={20} className="link-icon" />
+            <span>Đăng xuất</span>
+          </NavLink>
+        </div>
+      </nav>
     </div>
   );
 };
