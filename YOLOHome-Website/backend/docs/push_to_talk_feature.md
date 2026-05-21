@@ -71,47 +71,39 @@ Luồng xử lý của tính năng được chia làm 4 giai đoạn chính, đi
   - Vosk: `vosk-model-vn-0.4`
   - Intent model: `intent_model.pkl`
 
-### 4.2 Mở 4 tab Terminal và chạy theo thứ tự
+### 4.2 Chạy hệ thống (Docker cho backend/frontend, STT/ML chạy host)
 
-1. **Tab 1 - Vosk STT Server**
+1. **Bật Docker services**
+
+```powershell
+cd D:\STUDY\DADN\YOLOHome
+docker compose up -d
+```
+
+2. **Vosk STT Server (host)**
 
 ```bash
 cd D:\STUDY\DADN\YOLOHome\YOLOHome-Website\backend\stt_service
 $env:VOSK_MODEL_PATH="d:\STUDY\DADN\YOLOHome\YOLOHome-Gateway\GateWay\Voice\models\vosk-model-vn-0.4"
-uvicorn vosk_server:app --reload --port 8500
+uvicorn vosk_server:app --host 0.0.0.0 --port 8500
 ```
 
-2. **Tab 2 - ML Intent Server**
+3. **ML Intent Server (host)**
 
 ```bash
 cd D:\STUDY\DADN\YOLOHome\YOLOHome-Website\backend\ml_service
 $env:MODEL_PATH="d:\STUDY\DADN\YOLOHome\YOLOHome-Gateway\GateWay\Voice\models\intent_model.pkl"
-uvicorn ml_server:app --reload --port 8000
+uvicorn ml_server:app --host 0.0.0.0 --port 8000
 ```
 
-3. **Tab 3 - Backend Node.js**
-
-```bash
-cd D:\STUDY\DADN\YOLOHome\YOLOHome-Website\backend
-$env:VOSK_SERVER_URL="http://localhost:8500/transcribe"
-$env:ML_SERVICE_URL="http://localhost:8000/predict"
-npm run dev
-```
-**Lưu ý**: Nếu gặp trường hợp MQTT reconnecting...(Log này cho thấy backend chạy OK, nhưng MQTT đang reconnect liên tục ⇒ broker MQTT không chạy hoặc không kết nối được. Khi bấm giữ nói, backend vẫn xử lý STT/ML, nhưng đến bước publish MQTT sẽ lỗi “MQTT client not connected”, từ đó frontend báo “Gửi lệnh giọng nói thất bại”) thì hãy xem phần 5.1 
-4. **Tab 4 - Frontend React**
-
-```bash
-cd D:\STUDY\DADN\YOLOHome\YOLOHome-Website\frontend
-npm start
-```
-
-
+**Lưu ý quan trọng**: Không chạy `npm run dev` cho backend khi đã chạy backend trong Docker (tránh xung đột port `5000`).
 
 ### 4.3 Kiểm tra nhanh trước khi thử nói
 
 - Backend: `http://localhost:5000/health` trả JSON OK.
 - Vosk: `http://localhost:8500/docs` mở được.
 - ML Intent: `http://localhost:8000/docs` mở được.
+- Docker: `docker compose ps` thấy các service đang Up.
 
 ---
 

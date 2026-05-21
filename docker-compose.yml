@@ -1,3 +1,78 @@
+# version: "3.9"
+
+# services:
+#   mqtt:
+#     image: eclipse-mosquitto:latest
+#     container_name: yolohome-mqtt
+#     ports:
+#       - "1883:1883"
+#     volumes:
+#       - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+#     restart: unless-stopped
+
+#   mongo:
+#     image: mongo:latest
+#     container_name: yolohome-mongo
+#     ports:
+#       - "27017:27017"
+#     volumes:
+#       - mongo_data:/data/db
+#     environment:
+#       MONGO_INITDB_DATABASE: yolohome
+#     restart: unless-stopped
+
+#   backend:
+#     build:
+#       context: ./YOLOHome-Website/backend
+#       dockerfile: Dockerfile
+#     container_name: yolohome-backend
+#     ports:
+#       - "5000:5000"
+#     depends_on:
+#       - mongo
+#       - mqtt
+#     environment:
+#       PORT: 5000
+#       NODE_ENV: development
+#       MONGO_URI: mongodb://mongo:27017/yolohome
+#       CORS_ORIGIN: "*"
+#       MQTT_ENABLED: "true"
+#       MQTT_BROKER_URL: mqtt://mqtt:1883
+#     restart: unless-stopped
+
+#   frontend:
+#     build:
+#       context: ./YOLOHome-Website/frontend
+#       dockerfile: Dockerfile
+#     container_name: yolohome-frontend
+#     ports:
+#       - "8080:80"
+#     depends_on:
+#       - backend
+#     restart: unless-stopped
+
+#   gateway:
+#     build:
+#       context: ./YOLOHome-Gateway
+#       dockerfile: Dockerfile
+#     container_name: yolohome-gateway
+#     depends_on:
+#       - mqtt
+#     environment:
+#       PYTHONUNBUFFERED: "1"
+#       PYTHONDONTWRITEBYTECODE: "1"
+#     volumes:
+#       - ./YOLOHome-Gateway/config.docker.yml:/app/config.yml:ro
+#     # Change the left-one COM15 to the actual serial port on your host machine that connects to the Kit.
+#     devices:
+#       #- "/dev/ttyUSB0:COM15"
+#       - COM5:COM15
+#     privileged: true
+#     restart: unless-stopped
+
+# volumes:
+#   mongo_data:
+
 version: "3.9"
 
 services:
@@ -38,6 +113,8 @@ services:
       CORS_ORIGIN: "*"
       MQTT_ENABLED: "true"
       MQTT_BROKER_URL: mqtt://mqtt:1883
+      VOSK_SERVER_URL: http://host.docker.internal:8500/transcribe
+      ML_SERVICE_URL: http://host.docker.internal:8000/predict
     restart: unless-stopped
 
   frontend:
@@ -64,8 +141,8 @@ services:
     volumes:
       - ./YOLOHome-Gateway/config.docker.yml:/app/config.yml:ro
     # Change the left-one COM15 to the actual serial port on your host machine that connects to the Kit.
-    devices:
-      - "/dev/ttyUSB0:COM15"
+    # devices:
+    #   - "/dev/ttyUSB0:COM15"
     privileged: true
     restart: unless-stopped
 
