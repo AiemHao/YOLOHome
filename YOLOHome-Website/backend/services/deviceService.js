@@ -30,6 +30,11 @@ export class DeviceService {
         return toDeviceList(latestSnapshot);
     }
 
+    // Lấy snapshot mới nhất (raw document) để merge trạng thái
+    static async getLatestSnapshot() {
+        return await Device.findOne().sort({ timestamp: -1 });
+    }
+
     // Lưu snapshot 3 trạng thái thiết bị tại cùng timestamp
     static async saveDeviceSnapshot(deviceData) {
         const newSnapshot = new Device({

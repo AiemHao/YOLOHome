@@ -124,27 +124,23 @@ const handleDeviceState = async (payload, topicParams) => {
         }
 
         deviceSnapshotBuffer[field] = status;
+        const latestSnapshot = await DeviceService.getLatestSnapshot();
 
-        const hasFullSnapshot =
-            deviceSnapshotBuffer.light !== null &&
-            deviceSnapshotBuffer.fan !== null &&
-            deviceSnapshotBuffer.servo !== null;
-
-        if (!hasFullSnapshot) {
-            return;
-        }
-
-        await DeviceService.saveDeviceSnapshot({
-            light: deviceSnapshotBuffer.light,
-            fan: deviceSnapshotBuffer.fan,
-            servo: deviceSnapshotBuffer.servo,
+        const mergedSnapshot = {
+            light: latestSnapshot?.light ?? deviceSnapshotBuffer.light,
+            fan: latestSnapshot?.fan ?? deviceSnapshotBuffer.fan,
+            servo: latestSnapshot?.servo ?? deviceSnapshotBuffer.servo,
             timestamp: payload?.timestamp ? new Date(payload.timestamp) : new Date()
-        });
+        };
+
+        mergedSnapshot[field] = status;
+
+        await DeviceService.saveDeviceSnapshot(mergedSnapshot);
 
         logMqtt('Device snapshot saved to database', {
-            light: deviceSnapshotBuffer.light,
-            fan: deviceSnapshotBuffer.fan,
-            servo: deviceSnapshotBuffer.servo
+            light: mergedSnapshot.light,
+            fan: mergedSnapshot.fan,
+            servo: mergedSnapshot.servo
         });
 
         deviceSnapshotBuffer.light = null;

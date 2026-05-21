@@ -70,6 +70,26 @@ export class DeviceController {
                 status
             });
 
+            const normalizedDevice = (commandResult.deviceType || deviceType || deviceName || '').toLowerCase();
+            const fieldByDevice = {
+                led: 'light',
+                light: 'light',
+                fan: 'fan',
+                servo: 'servo'
+            };
+
+            const field = fieldByDevice[normalizedDevice];
+            if (field) {
+                const latestSnapshot = await DeviceService.getLatestSnapshot();
+                await DeviceService.saveDeviceSnapshot({
+                    light: latestSnapshot?.light ?? null,
+                    fan: latestSnapshot?.fan ?? null,
+                    servo: latestSnapshot?.servo ?? null,
+                    [field]: requestedAction,
+                    timestamp: new Date()
+                });
+            }
+
             logControlTrace({
                 ...traceBase,
                 action: `device_${commandResult.deviceType || deviceType || deviceName}_${requestedAction}`,

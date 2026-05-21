@@ -6,7 +6,9 @@ const mqttConfig = {
     clientId: process.env.MQTT_CLIENT_ID || `yolohome-backend-${Math.random().toString(16).slice(2, 10)}`,
     qos: Number(process.env.MQTT_QOS || 1),
     retain: process.env.MQTT_RETAIN === 'true',
-    responseTimeoutMs: 5000
+    responseTimeoutMs: 5000,
+    topicPrefix: process.env.MQTT_TOPIC_PREFIX || 'home',
+    location: process.env.MQTT_LOCATION || 'livingroom'
 };
 
 export default mqttConfig;
