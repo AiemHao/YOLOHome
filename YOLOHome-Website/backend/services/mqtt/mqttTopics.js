@@ -1,5 +1,7 @@
-const MQTT_PREFIX = 'home';
-const MQTT_LOCATION = 'livingroom';
+import mqttConfig from '../../config/mqtt.js';
+
+const MQTT_PREFIX = mqttConfig.topicPrefix || 'home';
+const MQTT_LOCATION = mqttConfig.location || 'livingroom';
 
 export const MQTT_SYSTEM_ACTIONS = Object.freeze({
     GET_ALL: 'getall',
