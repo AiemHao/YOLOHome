@@ -111,22 +111,22 @@ class CurtainControlRules:
         Args:
             sunlight (float): 0-100, phần trăm ánh sáng
             temperature (float): Nhiệt độ (°C)
-            humidity (float): 0-100, phần trăm độ ẩm
+            humidity (int): 0-100, phần trăm độ ẩm
         
         Returns:
             int: 0 (đóng rèm) hoặc 1 (mở rèm)
         """
         
         # RULE 1: Ánh sáng quá mạnh → Đóng rèm
-        if sunlight > 70:
+        if sunlight > 90:
             return 0  # Đóng rèm
         
         # RULE 3: Nhiệt độ quá cao + Ánh sáng cao → Đóng rèm
-        if temperature > 32 and sunlight > 50:
+        if temperature >= 33 and sunlight > 70:
             return 0  # Đóng rèm
         
         # RULE 2: Ánh sáng yếu + Nhiệt độ thích hợp → Mở rèm
-        if sunlight < 40 and temperature < 28:
+        if sunlight < 40 and temperature < 33:
             return 1  # Mở rèm
         
         # RULE 4: Độ ẩm cao + Cần thoáng khí → Mở rèm

@@ -37,13 +37,28 @@ class AIService:
         self.required_sensors = ['light', 'temp', 'humi']  # sunlight, temperature, humidity
         self.target_device = 'servo'  # Device this AI controls (curtain/servo)
         
-        # Load model if path provided and file exists
-        if model_path and os.path.exists(model_path):
-            try:
-                self._load_model(model_path)
-                logger.info(f"✓ AI model loaded from {model_path}")
-            except Exception as e:
-                logger.warning(f"Failed to load AI model: {e}")
+        # Load model if path provided
+        if model_path:
+            resolved_model_path = model_path
+            if not os.path.isabs(resolved_model_path):
+                resolved_model_path = os.path.abspath(resolved_model_path)
+
+            if not os.path.exists(resolved_model_path):
+                # Fallback: try relative to GateWay root when path is given from config
+                gateway_root = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+                fallback_path = os.path.abspath(os.path.join(gateway_root, model_path))
+                if os.path.exists(fallback_path):
+                    resolved_model_path = fallback_path
+
+            if os.path.exists(resolved_model_path):
+                try:
+                    self._load_model(resolved_model_path)
+                    logger.info(f"✓ AI model loaded from {resolved_model_path}")
+                except Exception as e:
+                    logger.warning(f"Failed to load AI model: {e}")
+                    self.model = None
+            else:
+                logger.warning(f"AI model path not found: {model_path}")
                 self.model = None
 
     def _load_model(self, model_path: str) -> None:

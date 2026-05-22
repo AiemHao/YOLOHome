@@ -40,7 +40,7 @@ automation:
   thresholds:
     temp:
       device: fan
-      above: 30
+      above: 29.5
       below: 25
       on_value: 1
       off_value: 0

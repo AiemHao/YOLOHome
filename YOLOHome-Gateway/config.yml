@@ -37,14 +37,19 @@ app:
 rate_limit:
   mqtt_to_serial: 0.1          # Min interval giữa 2 lần xử lý MQTT → Serial (giây)
   serial_to_mqtt: 0.5          # Min interval giữa 2 lần xử lý Serial → MQTT (giây)
+  # Batch sending options: group multiple queued commands into a single batch
+  # batch_mode: enable draining the queue and sending items back-to-back
+  batch_mode: false
+  # inter_command_delay_ms: small delay between commands inside a batch (milliseconds)
+  inter_command_delay_ms: 5
 
 # Automation rules for internal threshold-based control
 automation:
   threshold:
-    enabled: true                                       # Enable threshold-based automation
+    enabled: false                                       # Enable threshold-based automation
   ai:
-    enabled: false                                      # Enable AI-based automation
-    model_path: "GateWay/Decision_tree/curtain_model.pkl"  # Path to trained Decision Tree model
+    enabled: true                                      # Enable AI-based automation
+    model_path: "GateWay/Decision_tree/models/curtain_model.pkl"  # Path to trained Decision Tree model
   
   thresholds:
     temp:
@@ -53,11 +58,6 @@ automation:
         on_value: 1
         off_value: 0
     humi:
-      - device: led
-        above: 70
-        below: 65
-        on_value: 0
-        off_value: 1
       - device: servo
         above: 70
         below: 65

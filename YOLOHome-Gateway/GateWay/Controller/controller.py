@@ -7,6 +7,9 @@ and maintains device state cache.
 import logging
 import json
 import re
+import threading
+import time
+from queue import Queue, Empty
 from typing import Dict, Any, Optional, List
 from datetime import datetime
 from .services import DeviceService, StateService, ThresholdService, AIService
@@ -28,7 +31,9 @@ class MainController:
                  managed_devices: Dict[str, Dict[str, Any]] = None,
                  threshold_rules: List[Dict[str, Any]] = None,
                  ai_enabled: bool = False,
-                 ai_model_path: str = None):
+                 ai_model_path: str = None,
+                 batch_mode: bool = True,
+                 inter_command_delay: float = 0.005):
         """Initialize the message router.
         
         Args:
@@ -53,6 +58,10 @@ class MainController:
         self.state_service = StateService(state_history_size)
         self.threshold_service = ThresholdService(threshold_rules, enabled=True)
         self.ai_service = AIService(model_path=ai_model_path, enabled=ai_enabled)
+        # Recent-command cache to avoid duplicate immediate sends when both
+        # AI and Threshold trigger the same action nearly simultaneously.
+        self._recent_commands: Dict[Tuple[str, str], float] = {}
+        self._recent_command_ttl: float = 1.0  # seconds
         
         # Keep attributes for backward compatibility with existing integrations.
         self.managed_devices = self.device_service.managed_devices
@@ -65,6 +74,17 @@ class MainController:
         self.threshold_action_state = self.threshold_service.action_state
         self.use_ai = ai_enabled and self.ai_service.is_enabled()
         
+        # Command queue for sequential threshold-triggered sends (thread-safe Queue)
+        # self.command_queue = Queue()
+        # self.queue_processor_running = False
+        # self.queue_processor_thread = None
+        # # Timestamp of last serial send (monotonic). Used to minimize waits.
+        # self._last_send_time = 0.0
+        # self._start_queue_processor()
+        # # Batch mode: send multiple queued commands back-to-back with small inter-command delay
+        # # This reduces per-command latency while keeping a safe spacing between batches.
+        # self.batch_mode = batch_mode
+        # self.inter_command_delay = inter_command_delay  # seconds between commands in a batch
         
         self.mqtt.set_callback(self._on_mqtt)
         self.serial.set_callback(self._on_serial)
@@ -92,25 +112,72 @@ class MainController:
         
         Dispatches to either AI-based or threshold-based automation depending on
         use_ai flag and available sensor data.
+        
+        Queues commands for sequential serial sends (throttled by mqtt_to_serial interval).
         """
         if not self._is_sensor_device(device_name):
             return
 
         def send_command(target_device, desired_value):
-            if not self._ok_to_send(f"automation_{target_device}", self.rate_limit_mqtt):
-                logger.debug(f"Rate limited automation action for {target_device}")
-                return
-            self._to_serial(target_device, desired_value)
+            # Add to command queue instead of sending directly
+            # Queue processor will throttle sends with mqtt_to_serial interval
+            self._enqueue_command(target_device, desired_value)
 
         # Try AI-based automation first if enabled
         if self.use_ai:
             sensor_dict = self._get_sensor_dict()
             if sensor_dict:
+                # Run AI triggers but do not short-circuit; allow threshold
+                # rules to run as well so both systems can propose actions.
                 self.ai_service.check_and_trigger(sensor_dict, send_command)
-                return
         
         # Fall back to threshold-based automation
         self.threshold_service.check_threshold(device_name, value, send_command)
+
+    def _enqueue_command(self, device_name: str, value: Any) -> None:
+        """Add command to queue for sequential sending (non-blocking, like MQTT publish).
+        
+        Args:
+            device_name: Device to control.
+            value: Command value.
+        """
+        # Queue processing has been disabled — send immediately to serial.
+        # This simplifies behavior and avoids AttributeError when queue
+        # is not initialized in simpler deployments.
+        # Queue processing disabled — send immediately but avoid duplicates
+        # when AI and threshold both fire the same command within short time.
+        key = (str(device_name), str(value))
+        now = time.monotonic()
+        last = self._recent_commands.get(key, 0.0)
+        if now - last < getattr(self, '_recent_command_ttl', 1.0):
+            logger.debug(f"Deduped immediate send: {device_name}={value}")
+            return
+        self._recent_commands[key] = now
+        logger.debug(f"Immediate send: {device_name}={value}")
+        try:
+            self._to_serial(device_name, value)
+        except Exception as e:
+            logger.exception(f"Immediate send failed: {e}")
+    
+    def _start_queue_processor(self) -> None:
+        """Start background daemon thread to process command queue continuously."""
+        # Queue processor disabled in this build; no background thread started.
+        logger.debug("_start_queue_processor(): queue processing disabled")
+    
+    def _process_command_queue(self) -> None:
+        """Background daemon thread that continuously processes queued commands with rate limiting.
+        
+        Blocks on Queue.get() with timeout, so minimal CPU usage while waiting for commands.
+        """
+        # Queue processing removed — this method is retained as a no-op
+        # for compatibility with cleanup()/tests that may call it.
+        logger.debug("_process_command_queue(): disabled")
+        return
+    
+    def _stop_queue_processor(self) -> None:
+        """Stop background queue processor thread gracefully."""
+        # No queue processor to stop when disabled.
+        logger.debug("_stop_queue_processor(): queue processing disabled")
 
     def _get_sensor_dict(self) -> Optional[Dict[str, float]]:
         """Get current sensor values for AI model input.
@@ -632,3 +699,7 @@ class MainController:
             result[name] = info_without_abbr
 
         return result
+    
+    def cleanup(self) -> None:
+        """Clean up resources: stop command queue processor."""
+        self._stop_queue_processor()

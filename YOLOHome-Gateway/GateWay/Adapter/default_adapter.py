@@ -132,6 +132,35 @@ class DefaultDataAdapter(DataAdapter):
             raise ValueError(f"Unknown device: {device}")
         
         return f"!{abbr}:{value}#"
+
+    def to_serial_batch(self, items: list) -> str:
+        """Convert a list of device dicts to a single combined serial frame.
+
+        Args:
+            items: List of dicts like {'device': 'fan', 'value': '1'}
+
+        Returns:
+            Combined serial frame, e.g. '!F:1;L:1;S:1#'
+
+        Notes:
+            Separator between commands is ';'. Firmware must accept this format.
+        """
+        if not items:
+            raise ValueError("items must be non-empty list")
+
+        parts = []
+        for it in items:
+            dev = str(it.get('device', '')).lower()
+            val = str(it.get('value', ''))
+            if not dev or val == '':
+                raise ValueError(f"Invalid item in batch: {it}")
+            abbr = self.device_mapping.get(dev)
+            if not abbr:
+                raise ValueError(f"Unknown device in batch: {dev}")
+            parts.append(f"{abbr}:{val}")
+
+        body = ";".join(parts)
+        return f"!{body}#"
     
     def from_serial(self, raw: str) -> Optional[Tuple[str, str]]:
         """Parse serial frame to (device, value) tuple.

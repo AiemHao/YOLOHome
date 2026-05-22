@@ -13,9 +13,9 @@ print(f'  Model Info: {ai_service.get_model_info()}')
 
 # Test prediction with sample data
 sensor_data = {
-    'light': 50.0,
-    'temp': 25.0,
-    'humi': 60.0
+    'light': 30.0,
+    'temp': 27.0,
+    'humi': 20.0
 }
 
 prediction = ai_service.predict_action(sensor_data)

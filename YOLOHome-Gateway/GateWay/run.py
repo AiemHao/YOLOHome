@@ -19,7 +19,7 @@ from Controller import MainController
 # CONFIGURATION LOADER
 # ============================================================================
 
-def load_config(config_path: str = None) -> dict:
+def load_config(config_path: str = None) -> tuple[dict, str]:
     """
     Load configuration from YAML file
     
@@ -27,7 +27,7 @@ def load_config(config_path: str = None) -> dict:
         config_path: Path to config.yml (default: ../config.yml relative to this file)
     
     Returns:
-        Dictionary with mqtt, serial, app keys
+        Tuple containing configuration dict and the config directory path.
     """
     if config_path is None:
         # Default: look for config.yml in parent directory of GateWay/
@@ -41,7 +41,7 @@ def load_config(config_path: str = None) -> dict:
     with open(config_path, 'r', encoding='utf-8') as f:
         config = yaml.safe_load(f)
     
-    return config
+    return config, os.path.dirname(os.path.abspath(config_path))
 
 
 # Logging setup
@@ -53,7 +53,7 @@ logger = logging.getLogger(__name__)
 
 # Load configuration
 try:
-    config = load_config()
+    config, CONFIG_DIR = load_config()
     MQTT_CONFIG = config.get('mqtt', {})
     SERIAL_CONFIG = config.get('serial', {})
     APP_CONFIG = config.get('app', {})
@@ -189,6 +189,12 @@ class YOLOHomeGateway:
             ai_config = self.automation_config.get('ai', {})
             ai_enabled = ai_config.get('enabled', False)
             ai_model_path = ai_config.get('model_path')
+            if ai_model_path and not os.path.isabs(ai_model_path):
+                ai_model_path = os.path.normpath(os.path.join(CONFIG_DIR, ai_model_path))
+
+            if ai_enabled and not ai_model_path:
+                logger.warning("AI is enabled but automation.ai.model_path is not configured")
+            logger.info(f"AI config: enabled={ai_enabled}, model={ai_model_path}")
 
             threshold_config = self.automation_config.get('threshold', {})
             threshold_enabled = threshold_config.get('enabled', self.automation_config.get('enabled', True))
@@ -205,6 +211,9 @@ class YOLOHomeGateway:
                 threshold_rules=self.automation_config.get('thresholds', {}),
                 ai_enabled=ai_enabled,
                 ai_model_path=ai_model_path,
+                # Batch sending options (milliseconds -> seconds)
+                batch_mode=self.rate_limit_config.get('batch_mode', True),
+                inter_command_delay=self.rate_limit_config.get('inter_command_delay_ms', 5) / 1000.0,
             )
             logger.debug(f"Loaded thresholds: {AUTOMATION_CONFIG.get('thresholds', {})}")
             logger.debug(f"AI config: enabled={ai_enabled}, model={ai_model_path}")
@@ -313,6 +322,11 @@ class YOLOHomeGateway:
         logger.info("Shutting down gateway...")
         
         try:
+            # Clean up controller (stop command queue processor)
+            if self.controller:
+                self.controller.cleanup()
+                logger.info("✓ Controller cleaned up")
+            
             # Stop serial
             if self.serial_module and hasattr(self.serial_module, 'stop_reading'):
                 self.serial_module.stop_reading()
