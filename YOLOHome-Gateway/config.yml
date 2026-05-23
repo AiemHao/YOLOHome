@@ -46,9 +46,9 @@ rate_limit:
 # Automation rules for internal threshold-based control
 automation:
   threshold:
-    enabled: false                                       # Enable threshold-based automation
+    enabled: true                                    # Enable threshold-based automation
   ai:
-    enabled: true                                      # Enable AI-based automation
+    enabled: false                                      # Enable AI-based automation
     model_path: "GateWay/Decision_tree/models/curtain_model.pkl"  # Path to trained Decision Tree model
   
   thresholds:
