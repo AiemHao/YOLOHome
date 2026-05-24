@@ -1,0 +1,268 @@
+\section{Công Nghệ Gateway và thiết bị Trong Dự Án Yolo:Home}
+
+\subsection{ Bộ Xử Lý Trung Tâm - Yolo:Bit}
+
+\begin{itemize}
+    \item \textbf{Vai trò:} Bộ xử lý trung tâm, nơi xử lý tín hiệu từ các cảm biến và điều khiển thiết bị.
+    \item \textbf{Thông số:} Chip ESP32, hỗ trợ WiFi và Bluetooth, điện áp 3.3V.
+    \item \textbf{Tích hợp:} Màn hình LED 5x5, nút nhấn A/B, cảm biến nhiệt độ/ánh sáng cơ bản.
+\end{itemize}
+
+\subsection{ Môi trường lập trình - OhStem App}
+
+OhStem App là nền tảng lập trình trực tuyến được sử dụng trong dự án. Các tính năng chính bao gồm lập trình kéo thả trực tuyến dựa trên ngôn ngữ Blockly của Google, hỗ trợ đa thiết bị như máy tính, điện thoại thông minh và máy tính bảng. App cho phép kết nối với Yolo:Bit qua USB (sử dụng driver CH340) hoặc Bluetooth, đồng thời hỗ trợ xuất, nhập dự án dưới dạng file .json và chia sẻ project qua đường dẫn. Người dùng có thể chạy thử chương trình hoặc nạp trực tiếp vào bộ nhớ của thiết bị. Ngoài ra, OhStem App còn tích hợp quy trình khôi phục cài đặt gốc bằng tổ hợp phím A + Reset.
+
+\begin{center}
+\fbox{\parbox{0.85\textwidth}{
+\centering
+\textbf{Lưu ý:} Trong hệ thống của nhóm, OhStem App \textbf{chỉ được sử dụng ở mức độ lập trình cho kit Yolo:Bit}. 
+Các tính năng MQTT server (IoT) và Trí tuệ nhân tạo (AI) có sẵn trên OhStem \textbf{không được sử dụng}. 
+Toàn bộ phần MQTT server và AI models được nhóm tự xây dựng riêng cho hệ thống.
+}}
+\end{center}
+
+\subsection{ Hệ Thống Cảm Biến (Đầu Vào)}
+
+\subsubsection*{a. Cảm biến nhiệt độ \& độ ẩm DHT20}
+\begin{itemize}
+    \item \textbf{Chức năng:} Đo nhiệt độ và độ ẩm không khí.
+    \item \textbf{Giao tiếp:} I2C. Kết nối: \textbf{P19 (SCL) - P20 (SDA)}.
+\end{itemize}
+
+\subsubsection*{b. Cảm biến ánh sáng}
+\begin{itemize}
+\item \textbf{Chức năng:} Đo cường độ ánh sáng môi trường.
+    \item \textbf{Nguyên lý:} Quang trở (trở kháng thay đổi theo ánh sáng), tín hiệu analog.
+    \item \textbf{Kết nối:} Chân \textbf{P2} (ADC).
+\end{itemize}
+
+\subsection{ Hệ Thống Hiển Thị (Đầu Ra)}
+
+\subsubsection*{Màn hình LCD 16x2}
+\begin{itemize}
+    \item \textbf{Chức năng:} Hiển thị thông số cảm biến và thời gian tại chỗ.
+    \item \textbf{Giao tiếp:} I2C. Kết nối: \textbf{P21 (SCL) - P23 (SDA)}.
+\end{itemize}
+
+\subsection{ Hệ Thống Điều Khiển (Đầu Ra)}
+
+\subsubsection*{a. Đèn LED RGB}
+\begin{itemize}
+    \item \textbf{Nguyên lý:} NeoPixel (WS2812), điều khiển từng đèn với màu RGB.
+    \item \textbf{Kết nối:} Chân \textbf{P1} (PWM).
+\end{itemize}
+
+\subsubsection*{b. Động cơ - Quạt mini}
+\begin{itemize}
+    \item \textbf{Nguyên lý:} Động cơ DC, điều khiển tốc độ bằng PWM.
+    \item \textbf{Kết nối:} Chân \textbf{P0}.
+\end{itemize}
+
+\subsubsection*{c. Động cơ RC Servo}
+\begin{itemize}
+    \item \textbf{Chức năng:} Điều khiển góc quay (0-180°), mô phỏng đóng/mở cửa.
+    \item \textbf{Kết nối:} Chân \textbf{P4}.
+\end{itemize}
+
+\subsection*{Bảng tổng kết kết nối các thiết bị}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.3}
+\begin{tabular}{|>{\columncolor[gray]{0.9}}c|c|c|}
+\hline
+\rowcolor[gray]{0.8}
+\textbf{Thiết bị} & \textbf{Giao tiếp} & \textbf{Chân kết nối} \\ \hline
+Cảm biến DHT20 & I2C & P19 (SCL) - P20 (SDA) \\ \hline
+Màn hình LCD 16x2 & I2C & P21 (SCL) - P23 (SDA) \\ \hline
+Đèn LED RGB & Digital (PWM) & P1 \\ \hline
+Cảm biến ánh sáng & Analog (ADC) & P2 \\ \hline
+Quạt mini (Động cơ DC) & Digital (PWM) & P0 \\ \hline
+Động cơ RC Servo & Digital (PWM) & P4 \\ \hline
+\end{tabular}
+\caption{Bảng kết nối chi tiết các thiết bị ngoại vi với mạch Yolo:Bit}
+\label{tab:connection}
+\end{table}
+
+\subsection{ Hệ thống MQTT Server và AI tự xây dựng}
+
+Các thành phần IoT và AI trong dự án được nhóm tự xây dựng hoàn toàn. Cụ thể, nhóm tự triển khai máy chủ MQTT riêng để quản lý các kênh dữ liệu phục vụ cho việc gửi và nhận thông tin giữa Yolo:Bit và bảng điều khiển IoT. Bên cạnh đó, các mô hình trí tuệ nhân tạo như nhận diện giọng nói (Speech-to-Text) cũng được nhóm tự xây dựng và huấn luyện, hoàn toàn không sử dụng các dịch vụ AI có sẵn.
+
+\subsubsection{Tìm hiểu công nghệ MQTT Broker - Eclipse Mosquitto}
+
+Để chủ động trong việc trao đổi dữ liệu MQTT giữa các thiết bị trong hệ thống IoT, nhóm đã quyết định tự xây dựng máy chủ MQTT riêng bằng giải pháp mã nguồn mở \textbf{Eclipse Mosquitto}.
+
+\textbf{a. Gi thiệu về Eclipse Mosquitto}
+
+Eclipse Mosquitto là một message broker mã nguồn mở triển khai giao thức MQTT phiên bản 5.0, 3.1.1 và 3.1 . Được viết bằng ngôn ngữ \textbf{C/C++}, Mosquitto hướng đến sự đơn giản, nhẹ nhàng và hiệu quả. Broker đóng vai trò trung gian giữa các MQTT client, nhận tin nhắn từ publisher và chuyển tiếp đến subscriber phù hợp dựa trên topic đã đăng ký .
+
+\textbf{b. Kiến trúc kỹ thuật}
+
+Mosquitto sử dụng \textbf{kiến trúc single-thread, event-driven} . Toàn bộ kết nối và xử lý tin nhắn được thực hiện trên một luồng đơn, giúp tránh chi phí đồng bộ hóa và tiết kiệm tài nguyên. Cụ thể, Mosquitto chỉ tiêu tốn khoảng \textbf{60kB bộ nhớ chương trình} và \textbf{2-4kB heap cho mỗi client} .
+
+Về cơ chế hoạt động, Mosquitto tuân theo mô hình publish/subscribe đặc trưng của MQTT: publisher gửi tin nhắn kèm topic, subscriber đăng ký nhận topic, broker chuyển tiếp tin nhắn đến đúng subscriber .
+
+\textbf{c. Tính năng bảo mật và tiện ích}
+
+Mosquitto hỗ trợ đầy đủ các cơ chế bảo mật cần thiết: xác thực username/password, mã hóa TLS/SSL, ACL phân quyền theo topic, và Dynamic Security Plugin cho phép quản lý theo thời gian thực .
+
+Ngoài ra, Mosquitto còn hỗ trợ:
+\begin{itemize}
+    \item \textbf{WebSocket:} Cho phép browser kết nối trực tiếp đến MQTT broker mà không cần backend trung gian , rất hữu ích cho bảng điều khiển IoT real-time.
+    \item \textbf{Công cụ dòng lệnh:} Các tiện ích \texttt{mosquitto\_pub}, \texttt{mosquitto\_sub}, \texttt{mosquitto\_passwd} giúp kiểm tra và gỡ lỗi dễ dàng .
+\end{itemize}
+
+Ví dụ sử dụng:
+\begin{verbatim}
+mosquitto_pub -t "home/livingroom/device/led/set" -m '{"action":"on"}'
+mosquitto_sub -t "home/livingroom/device/+/state" -v
+\end{verbatim}
+
+\textbf{d. Đánh giá ưu điểm}
+
+Mosquitto có các ưu điểm nổi bật sau:
+
+\begin{itemize}
+    \item \textbf{Nhẹ và hiệu quả:} Yêu cầu tài nguyên tối thiểu, phù hợp chạy trên máy chủ cấu hình thấp hoặc thiết bị nhúng.
+    \item \textbf{Độ trễ thấp:} Đạt độ trễ dưới 1 mili giây trong điều kiện tải nhẹ .
+    \item \textbf{Ổn định:} Khả năng phục hồi nhanh sau sự cố .
+    \item \textbf{Đa nền tảng:} Chạy được trên Linux, Windows, macOS, Docker và cả ESP32 .
+    \item \textbf{Dễ cài đặt:} Chỉ một dòng lệnh \texttt{sudo apt-get install mosquitto} trên Linux .
+    \item \textbf{Miễn phí và mã nguồn mở:} Được hỗ trợ bởi Eclipse Foundation với cộng đồng lớn .
+\end{itemize}
+
+\textbf{e. Lý do lựa chọn Mosquitto cho dự án}
+
+Nhóm quyết định lựa chọn Mosquitto làm MQTT broker dựa trên các lý do sau:
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\centering
+\textbf{1. Phù hợp với kiến trúc topic của dự án:} Hỗ trợ wildcard `+` và `\#`, đáp ứng cấu trúc topic chi tiết như `home/livingroom/device/+/state`.
+
+\textbf{2. Chủ động hoàn toàn về hạ tầng:} Không phụ thuộc nhà cung cấp dịch vụ, dữ liệu do nhóm tự quản lý.
+
+\textbf{3. Không bị giới hạn (Limit):} Tránh các giới hạn của server miễn phí (số kết nối, số tin nhắn/ngày).
+
+\textbf{4. Hiệu năng trong môi trường LAN:} Đặt broker cùng mạng nội bộ với Yolo:Bit, đảm bảo thời gian thực.
+
+\textbf{5. Dễ kiểm thử:} Công cụ dòng lệnh giúp kiểm thử nhanh luồng dữ liệu theo tài liệu API.
+}}
+\end{center}
+
+\section{Công Nghệ Website Trong Dự Án Yolo:Home}
+\subsection{Frontend}
+Để xây dựng giao diện người dùng hiện đại, trực quan và tối ưu hóa trải nghiệm điều khiển thời gian thực, dự án \texttt{YOLOHome} sử dụng các công nghệ Frontend cốt lõi sau:
+\begin{itemize}
+    \item \textbf{React 19}: Thư viện JavaScript mã nguồn mở hàng đầu để xây dựng giao diện người dùng dạng Single Page Application (SPA) thông qua kiến trúc hướng thành phần (Component-driven design).
+    \item \textbf{Vite}: Công cụ build và bundler thế hệ mới với hiệu năng cực cao, sử dụng ES Modules bản địa giúp quá trình HMR (Hot Module Replacement) diễn ra tức thời khi phát triển và tối ưu hóa kích thước bundle khi đóng gói.
+    \item \textbf{Tailwind CSS}: Framework CSS tiện ích (utility-first) giúp thiết kế giao diện nhanh chóng, đảm bảo tính nhất quán của hệ thống thiết kế và khả năng hiển thị tương thích hoàn hảo trên nhiều kích thước màn hình (Responsive Design).
+    \item \textbf{RecordRTC}: Thư viện hỗ trợ ghi âm chất lượng cao trên trình duyệt Web, cho phép thu nhận giọng nói mono WAV với tần số lấy mẫu 16kHz chuẩn xác phục vụ dịch vụ nhận diện tiếng Việt.
+\end{itemize}
+
+\subsection{Backend}
+
+\subsubsection{Công nghệ MongoDB} 
+
+
+MongoDB là một hệ quản trị cơ sở dữ liệu NoSQL, được thiết kế để lưu trữ dữ liệu dưới dạng tài liệu (document-oriented). Khác với các hệ quản trị cơ sở dữ liệu quan hệ truyền thống, MongoDB không sử dụng bảng (table) mà sử dụng các collection và document. Dữ liệu trong MongoDB được lưu dưới dạng BSON (Binary JSON), giúp xử lý nhanh và linh hoạt hơn.
+
+\textbf{Mô hình dữ liệu}
+Trong MongoDB, dữ liệu được tổ chức theo ba cấp:
+\begin{itemize}
+    \item \textbf{Document}: Đơn vị dữ liệu cơ bản, có cấu trúc dạng JSON.
+    \item \textbf{Collection}: Tập hợp các document, tương tự như bảng trong SQL.
+    \item \textbf{Database}: Chứa nhiều collection.
+\end{itemize}
+
+\textbf{Các tính năng chính} 
+MongoDB cung cấp nhiều tính năng mạnh mẽ:
+\begin{itemize}
+    \item \textbf{Schema linh hoạt}: Không cần định nghĩa cấu trúc dữ liệu trước, cho phép lưu trữ dữ liệu đa dạng.
+    \item \textbf{Hiệu năng cao}: Tối ưu cho các thao tác đọc và ghi dữ liệu lớn.
+    \item \textbf{Indexing}: Hỗ trợ nhiều loại chỉ mục giúp tăng tốc truy vấn.
+    \item \textbf{Aggregation}: Cho phép xử lý và phân tích dữ liệu thông qua pipeline.
+    \item \textbf{Replication}: Sao chép dữ liệu giữa nhiều server để đảm bảo tính sẵn sàng cao.
+    \item \textbf{Sharding}: Phân tán dữ liệu trên nhiều máy chủ để mở rộng hệ thống.
+    \item \textbf{Transaction}: Hỗ trợ giao dịch đảm bảo tính toàn vẹn dữ liệu.
+\end{itemize}
+
+\textbf{Ưu điểm và nhược điểm} 
+\textbf{Ưu điểm:}
+\begin{itemize}
+    \item Linh hoạt trong thiết kế dữ liệu
+    \item Dễ mở rộng và phù hợp với hệ thống lớn
+    \item Tốc độ xử lý nhanh
+\end{itemize}
+
+\textbf{Nhược điểm:}
+\begin{itemize}
+    \item Không phù hợp với hệ thống yêu cầu quan hệ dữ liệu phức tạp
+    \item Transaction không mạnh bằng các hệ quản trị SQL truyền thống
+\end{itemize}
+
+\textbf{Ứng dụng} 
+MongoDB được sử dụng rộng rãi trong:
+\begin{itemize}
+    \item Ứng dụng web hiện đại (Node.js, React)
+    \item Hệ thống IoT
+    \item Phân tích dữ liệu lớn (Big Data)
+    \item Trí tuệ nhân tạo (AI)
+\end{itemize}
+
+\textbf{Kết luận} 
+MongoDB là một giải pháp cơ sở dữ liệu hiện đại, phù hợp với các hệ thống cần xử lý dữ liệu linh hoạt và có khả năng mở rộng cao. Tuy nhiên, việc lựa chọn sử dụng MongoDB hay cơ sở dữ liệu quan hệ cần dựa trên yêu cầu cụ thể của hệ thống.\subsubsection{Công nghệ Decision Tree trong điều khiển rèm thông minh}
+
+Hệ thống điều khiển rèm thông minh được xây dựng dựa trên thuật học có giám sát (supervised learning), cụ thể là \textbf{Decision Tree Classifier} từ thư viện \textbf{scikit-learn} của Python.
+
+\textbf{a. Giải thuật Decision Tree}
+
+Decision Tree (cây quyết định) là một phương pháp học phi tham số (non-parametric), hoạt động dựa trên chiến lược \textbf{chia để trị (divide and conquer)}. Cấu trúc của cây bao gồm:
+
+\begin{itemize}
+    \item \textbf{Nút gốc (Root Node):} Điểm bắt đầu, chứa toàn bộ dữ liệu huấn luyện.
+    \item \textbf{Nút quyết định (Decision Nodes):} Các nút bên trong, thực hiện việc phân chia dữ liệu dựa trên một đặc trưng và ngưỡng cụ thể. Mỗi nút đặt ra một câu hỏi có/không về giá trị đầu vào.
+    \item \textbf{Nút lá (Leaf Nodes):} Các nút cuối cùng, đưa ra kết quả phân loại (quyết định cuối cùng).
+\end{itemize}
+
+Thuật toán xây dựng cây bằng cách tìm kiếm đặc trưng và ngưỡng phân chia tốt nhất tại mỗi nút, sao cho các nhánh con có độ thuần khiết (purity) cao nhất. Chất lượng của phép chia được đo bằng các chỉ số như \textbf{Gini impurity} (độ bất tinh Gini) hoặc \textbf{Entropy} (đo độ hỗn loạn của dữ liệu). Quá trình này lặp lại cho đến khi đạt điều kiện dừng, chẳng hạn như đạt độ sâu tối đa hoặc số lượng mẫu tại nút lá đạt ngưỡng tối thiểu.
+
+\textbf{b. Công cụ hỗ trợ - Scikit-learn}
+
+Để hiện thực Decision Tree, hệ thống sử dụng lớp \texttt{DecisionTreeClassifier} từ thư viện \textbf{scikit-learn}. Thư viện này cung cấp các tham số quan trọng để điều chỉnh mô hình:
+
+\begin{itemize}
+    \item \texttt{criterion:} Hàm đánh giá chất lượng phân chia, có thể chọn \texttt{"gini"} (độ bất tinh Gini) hoặc \texttt{"entropy"} (lượng thông tin).
+    \item \texttt{max\_depth:} Độ sâu tối đa của cây, giúp kiểm soát hiện tượng overfitting.
+    \item \texttt{min\_samples\_split:} Số mẫu tối thiểu để phân chia một nút nội bộ.
+    \item \texttt{min\_samples\_leaf:} Số mẫu tối thiểu tại một nút lá, giúp làm mịn mô hình.
+    \item \texttt{random\_state:} Kiểm soát tính ngẫu nhiên để đảm bảo khả năng tái lập kết quả.
+\end{itemize}
+
+Các tham số này được tinh chỉnh để đạt được mô hình có độ chính xác cao và tránh overfitting.
+
+\textbf{c. Đánh giá ưu điểm và hạn chế}
+
+Decision Tree có nhiều ưu điểm nổi bật:
+
+\begin{itemize}
+\item \textbf{Dễ hiểu và giải thích được (Interpretable):} Cấu trúc cây trực quan, có thể biểu diễn dưới dạng các luật "if-then-else", giúp dễ dàng kiểm tra và lý giải quyết định của mô hình.
+    \item \textbf{Yêu cầu tiền xử lý dữ liệu tối thiểu:} Không cần chuẩn hóa hay tạo biến giả (dummy variables).
+    \item \textbf{Chi phí dự đoán thấp:} Thời gian dự đoán tỷ lệ thuận với độ sâu của cây (logarithmic), rất phù hợp với các ứng dụng thời gian thực.
+    \item \textbf{Xử lý được cả dữ liệu số và phân loại:} Linh hoạt với nhiều loại dữ liệu đầu vào.
+    \item \textbf{Cung cấp độ quan trọng của đặc trưng (feature importance):} Cho biết đặc trưng nào đóng góp nhiều nhất vào quyết định.
+\end{itemize}
+
+Bên cạnh đó, Decision Tree cũng có một số hạn chế cần lưu ý:
+
+\begin{itemize}
+    \item \textbf{Dễ bị overfitting:} Cây quá phức tạp có thể học luôn cả nhiễu trong dữ liệu. Khắc phục bằng các tham số như \texttt{max\_depth} hoặc \texttt{min\_samples\_leaf}.
+    \item \textbf{Không ổn định:} Những thay đổi nhỏ trong dữ liệu có thể tạo ra cây hoàn toàn khác.
+    \item \textbf{Không nắm bắt được các mẫu phức tạp:} So với các mô hình ensemble như Random Forest hay Gradient Boosting, cây đơn lẻ có sức biểu diễn hạn chế hơn.
+\end{itemize}
+
+\textbf{d. Ứng dụng trong hệ thống điều khiển rèm}
+
+Trong hệ thống này, Decision Tree được huấn luyện để học các luật điều khiển rèm từ dữ liệu mẫu. Cụ thể, ba tín hiệu cảm biến đầu vào gồm ánh sáng (0-100\%), nhiệt độ (-10°C đến 50°C) và độ ẩm (0-100\%) được sử dụng để huấn luyện mô hình. Nhãn đầu ra là hành động đóng (0) hoặc mở (1) rèm.
+
+Mô hình được huấn luyện trên 10.000 mẫu dữ liệu nhân tạo, sinh ra từ các luật điều khiển do chuyên gia định nghĩa (ví dụ: ánh sáng quá mạnh thì đóng rèm, nhiệt độ thấp kết hợp ánh sáng cao thì mở rèm). Sau khi huấn luyện, Decision Tree có thể dự đoán nhanh chóng hành động phù hợp cho bất kỳ bộ giá trị cảm biến nào. Mô hình sau đó được lưu lại (bằng pickle) và triển khai trong backend server, sẵn sàng nhận dữ liệu cảm biến thực tế để đưa ra quyết định đóng/mở rèm một cách tự động và thông minh.
