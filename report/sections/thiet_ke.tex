@@ -370,6 +370,57 @@ Hướng phát triển tiếp theo là đồng bộ hóa vị trí mặc định
 
 \subsection{Thiết kế AI: Điều khiển bằng giọng nói}
 
+Tính năng điều khiển bằng giọng nói tiếng Việt là một trong những tương tác thông minh cốt lõi của hệ thống YOLOHome, mang lại trải nghiệm rảnh tay (hands-free) tiện lợi cho người dùng. Quá trình xử lý bao gồm hai bước chính xuyên suốt luồng dữ liệu: nhận dạng giọng nói (Speech-to-Text) và phân loại ý định (Intent Classification) để bóc tách mệnh lệnh thiết bị.
+
+\subsubsection{Nhận diện giọng nói với Vosk}
+\textbf{Tổng quan về Vosk:} \\
+Khác với các giải pháp dựa trên nền tảng đám mây (như Google Speech hay AWS Transcribe), hệ thống sử dụng Vosk - một bộ công cụ nhận dạng giọng nói mã nguồn mở, hoạt động hoàn toàn ngoại tuyến và được xây dựng dựa trên kiến trúc lõi cực kỳ mạnh mẽ của Kaldi. Để tối ưu hóa cho bài toán tại Việt Nam, hệ thống sử dụng cục bộ bộ mô hình \texttt{vosk-model-vn-0.4}. Đây là mô hình bao gồm bộ cấu trúc âm học (Acoustic Model - \texttt{final.mdl}), đồ thị ngôn ngữ (HCLG graph) và các vector trích xuất đặc trưng (i-vector) được huấn luyện tinh chỉnh riêng cho tiếng Việt. Việc nạp và gọi trực tiếp mô hình này trong Microservice giúp hệ thống loại bỏ độ trễ do đường truyền Internet, đảm bảo tính ổn định và đặc biệt đề cao quyền riêng tư dữ liệu (Data Privacy) nhờ tính năng xử lý Edge-AI (không lưu trữ hay đẩy âm thanh lên đám mây). Mã nguồn tải đường dẫn mô hình trực tiếp qua hàm \texttt{Model(MODEL\_PATH)}.
+
+\textbf{Tích hợp hệ thống và luồng trung chuyển luồng Audio:} \\
+Trong kiến trúc hệ thống, bộ nhận diện Vosk được bọc bên trong một Microservice bằng ngôn ngữ Python sử dụng \texttt{FastAPI}, lắng nghe độc lập tại cổng cục bộ \texttt{8500}. Luồng xử lý giao tiếp diễn ra như sau:
+\begin{itemize}
+    \item \textbf{Ghi âm ở Trình duyệt:} Khi người dùng nhấn nút biểu tượng Voice Control tại giao diện React Frontend, RecordRTC sẽ thu bắt âm thanh và tiến hành đóng gói nội dung trực tiếp sang định dạng chuẩn WAV (PCM Mono, 16-bit với tần số lấy mẫu 8kHz hoặc 16kHz). 
+    \item \textbf{Truyền dữ liệu và Giải mã (Decoding):} Tệp âm thanh này được gửi dưới dạng \texttt{multipart/form-data} đến Backend Node.js qua chuẩn REST: \texttt{POST /api/voice/command}. Backend sẽ đẩy trực tiếp luồng byte (\textit{buffer}) này sang REST API \texttt{/transcribe} của Vosk Service.
+    \item \textbf{Xử lý thời gian thực:} Lớp \texttt{KaldiRecognizer} của Vosk đọc và xử lý liên tiếp các khung âm thanh theo gói nhỏ (chunk 4000 byte lệnh \texttt{readframes}). Các dải tín hiệu sóng được tổng hợp và giải mã ngay lập tức (\texttt{AcceptWaveform}) để đẩy ra nội dung phỏng đoán một cách liên tục. Kết quả cuối cùng (\texttt{FinalResult}) là chuỗi văn tự (transcript) tiếng Việt thô, được biến đổi thành dạng JSON trả về cho tầng ứng dụng.
+\end{itemize}
+
+\subsubsection{Phân loại ý định (Intent Classifier)}
+
+\paragraph{Xây dựng tập dữ liệu (Dataset)}
+\textbf{Phương pháp tạo dữ liệu:} \\
+Khác với AI xử lý tham số cảm biến, mô hình nhận diện ý định mệnh lệnh tiếp nhận đầu vào (input) là câu chữ giao tiếp tự nhiên và cần kết luận (output) là một hành động cụ thể. Phương pháp luận hiện tại sử dụng tập dữ liệu sinh tạo cấu trúc hóa (synthetic data generation). Dữ liệu huấn luyện là những cú pháp mệnh lệnh phổ biến được ghi chép kết hợp các cụm từ đồng nghĩa để tạo sự đa dạng (ví dụ: \textit{"bật đèn", "tắt điện đi", "kéo màn xuống", "làm ơn mở rèm..."}).
+Mỗi câu đầu vào này được map trực tiếp với một \textit{nhãn hành động quyết định} (Label) theo chuẩn định dạng \texttt{<thiết\_bị>:<hành\_động>}. Ví dụ, câu nói \textit{"kéo màn xuống"} hoặc \textit{"đóng rèm"} đều hội tụ về nhãn mục tiêu là \texttt{servo:off}. Nhờ quy chuẩn nhãn này, mã điều khiển trở nên thống nhất và vi điều khiển Gateway dễ dàng biên dịch thành Serial gửi xuống kit.
+
+\textbf{Thống kê tập dữ liệu:}
+\begin{itemize}
+    \item \textbf{Lượng mẫu khởi tạo:} Hệ thống sử dụng một tập dữ liệu gốc (cold-start dataset) gồm \textbf{179 mẫu huấn luyện} phủ quát từ ngữ mệnh lệnh của cả ba cơ cấu tác động vật lý. Mặc dù dung lượng dữ liệu tương đối nhỏ, bộ dữ liệu đã đóng gói đủ các hình thái từ vựng thay thế trọng tâm.
+    \item \textbf{Tỉ lệ phân phối nhãn (Labels):} Dữ liệu được rải đồng đều giữa các nhóm thiết bị nhằm tránh định thiên (bias) cho thuật toán học có giám sát:
+    \begin{itemize}
+        \item \textbf{Thiết bị đèn (LED):} Tổng cộng 65 mẫu, bao gồm 35 mẫu cho nhãn \texttt{led:on} (ví dụ: \textit{"bật đèn", "mở điện",...}) và 30 mẫu cho nhãn \texttt{led:off} (ví dụ: \textit{"tắt đèn", "đóng đèn",...}).
+        \item \textbf{Thiết bị quạt (FAN):} Tổng cộng 58 mẫu, bao gồm 30 mẫu cho nhãn \texttt{fan:on} và 28 mẫu cho nhãn \texttt{fan:off}.
+        \item \textbf{Thiết bị rèm/cửa (SERVO):} Tổng cộng 56 mẫu, bao gồm 28 mẫu cho nhãn \texttt{servo:on} và 28 mẫu cho nhãn \texttt{servo:off}.
+        \item \textbf{Nhiễu/Không xác định (UNKNOWN):} Khởi tạo 17 mẫu nhiễu (ví dụ: \textit{"xin chào", "thử nghiệm", "kiểm tra"}), giúp hệ thống học cách đào thải các câu nói vu vơ, gián tiếp ngăn chặn hiện tượng nhận diện sai lệch.
+    \end{itemize}
+\end{itemize}
+
+\paragraph{Cấu trúc mô hình}
+Trái ngược với việc sử dụng mạng nơ-ron hồi quy quá phức tạp, bài toán ánh xạ văn bản (Text-to-Intent) hiện tại được hiện thực hóa bằng một chuỗi thuật toán (Pipeline) trọng lượng cực nhẹ trên thư viện máy học tiêu chuẩn \textbf{\texttt{scikit-learn}} của Python. Hệ thống kết hợp giữa bộ Rút trích đặc trưng \textbf{TF-IDF} và Thuật toán tĩnh \textbf{Support Vector Machine (SVC)}:
+\begin{itemize}
+    \item \textbf{Trích xuất không gian đặc trưng:} Văn bản trả về từ Vosk được đi qua lớp \texttt{TfidfVectorizer} với tham số lưới N-gram từ 1 kề 3 ký tự (\texttt{ngram\_range=(1, 3)}). Phương pháp này tính toán điểm số Tần suất xuất hiện từ (TF) và Tần suất nghịch đảo tài liệu (IDF) từ đó nén các câu nói vô định hình thành một đồ thị Vector dày đặc đặc trưng ý định.
+    \item \textbf{Phân lớp siêu phẳng SVC:} Thuật toán phân lớp \texttt{SVC} được cấu hình \texttt{kernel='linear'} đóng vai trò là hàm rẽ nhánh tuyến tính, cố gắng vạch ra các siêu phẳng tối ưu (Hyper-planes) lớn nhất bóc tách từng cụm vector ý định. Tham số độ căng cứng \texttt{C=1.5} (Hard Margin) cung cấp tính tách biệt rõ ràng nhằm loại bỏ hoàn toàn việc một câu văn đè nhầm sang ý định khác. Tham số xác suất \texttt{probability=True} được kích hoạt giúp mô hình đưa ra thông số độ tự tin xác suất khi chốt nhãn.
+\end{itemize}
+
+\paragraph{Đánh giá kết quả (Evaluation)}
+Nhờ đặc thù của tập dữ liệu huấn luyện mang độ nhiễu thấp, tần số phân ly của các cụm từ mang ý nghĩa đóng/mở/bật/tắt bị đẩy ra xa nhau hoàn toàn khi chuyển vào biểu đồ ma trận n-grams. Do đó, mô hình \texttt{SVC} dễ dàng quy nạp được luồng tư duy mong muốn, dẫn tới tỷ lệ chính xác dự đoán từ trên tập ngôn ngữ điều khiển phổ quát hội tụ ở mức gần 100\% mà không vấp phải hiện tượng quá khớp (Overfitting). 
+Thực tế khi tích hợp làm một API qua cổng 8000, tốc độ phản hồi (Inference Time) kể từ lúc nạp audio vào Vosk đến khi xuất kho nhãn SVC luôn nhỏ hơn 0.5 giây trên cấu hình cục bộ không có card đồ họa, đáp ứng chỉ tiêu ròng rã và hạn chế đứt gãy luồng tương tác trải nghiệm (Real-time Experience).
+
+\paragraph{Hướng phát triển}
+Giống như mục cấu trúc Gợi ý thông minh cho môi trường, tập 179 mẫu câu hiện tại chỉ đóng vai trò dự phòng "khởi động lạnh". Kế hoạch thực tế hướng đến là đưa bộ đôi STT-SVC vào một khung đường ống \textbf{Continuous Learning} (Học tập tự uốn nắn liên tục) tập trung linh hoạt vào hai khía cạnh:
+\begin{itemize}
+    \item \textbf{Thu thập mẫu lệch thông minh:} Thông qua luồng xử lý tại Node.js Backend, khi người dùng yêu cầu nhưng bị sai ý định, mô hình sẽ từ chối đưa ra kết quả. Những log văn tự thô không thể bắt cặp mã sẽ tự động được gửi qua cơ sở dữ liệu giám sát \texttt{ControlTrace}.
+    \item \textbf{Tinh chỉnh (Fine-tuning) theo ngữ cảnh người dùng:} Dựa trên logs này, bộ dữ liệu huấn luyện tại thư viện Jupyter xử lý của hệ thống sẽ ghi nhận và bổ khuyết các luật ngôn từ đa dạng (synonyms/heuristics). Do chi phí huấn luyện lại máy học SVC với tập nhỏ chỉ tính bằng giây, ta có thể xây dựng các Script định kỳ liên tục học thêm dữ liệu mới, giúp hệ thống nhà thông minh tự động tiến hóa cá nhân hóa chặt chẽ theo nhịp ngôn ngữ sinh hoạt của người sở hữu thay vì bó hẹp vào một cơ sở dữ liệu đóng.
+\end{itemize}
+
 \subsection{Thiết kế AI: Gợi ý thông minh dựa trên dữ liệu môi trường}
 
 \subsubsection{Xây dựng tập dữ liệu (Dataset)}
