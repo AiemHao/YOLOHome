@@ -13,11 +13,11 @@ Dự án có các tính năng tự động hóa, như giám sát môi trường 
 \subsubsection*{Module 1 — Đo đạc \& Hiển thị (Môi trường)}
 \begin{itemize}
   \item \textbf{Mục đích:} Thu thập liên tục, xử lý và hiển thị trực quan các thông số môi trường (nhiệt độ, độ ẩm, cường độ ánh sáng) tại thời gian thực.
-  \item \textbf{FR (Yêu cầu chức năng):}
+  \item \textbf{Yêu cầu chức năng:}
     \begin{itemize}
-      \item Lấy mẫu định kỳ với tần suất có thể tùy chỉnh (ví dụ: 1--60 giây/lần).
+      \item Lấy mẫu định kỳ với tần suất 60 giây/lần.
       \item Chuẩn hóa dữ liệu thô sang các đơn vị đo lường chuẩn (°C, \%RH, lux).
-      \item Hiển thị dữ liệu realtime trên Dashboard của App/Web dưới dạng số và biểu đồ cơ bản.
+      \item Hiển thị dữ liệu thời gian thực trên Dashboard của App/Web dưới dạng số và biểu đồ cơ bản.
     \end{itemize}
 
 \end{itemize}
@@ -25,10 +25,10 @@ Dự án có các tính năng tự động hóa, như giám sát môi trường 
 \subsubsection*{Module 2 — Tự động hóa ngưỡng \& Cảnh báo}
 \begin{itemize}
   \item \textbf{Mục đích:} Tự động hóa hoạt động của thiết bị dựa trên bộ luật (rules) điều kiện môi trường và kịp thời gửi cảnh báo khi có sự cố.
-  \item \textbf{FR:}
+  \item \textbf{Yêu cầu chức năng:}
     \begin{itemize}
-      \item Cấu hình (CRUD) các bộ ngưỡng ngày/đêm và các kịch bản tự động.
-      \item Trigger hành động khi vượt ngưỡng: Tự bật đèn khi thiếu sáng, bật quạt/điều hòa khi nhiệt độ cao.
+      \item Hỗ trợ quản lý (thêm, sửa, xóa) các bộ ngưỡng cấu hình ngày/đêm và các kịch bản tự động.
+      \item Trigger hành động khi vượt ngưỡng: Tự bật đèn khi thiếu sáng, bật quạt/điều hòa khi nhiệt độ cao, bật servo/rèm khi không khí mát mẻ.
       \item Cơ chế Override: Tạm dừng kịch bản tự động nếu người dùng can thiệp thủ công.
       \item Gửi thông báo trạng thái hoặc cảnh báo khẩn cấp qua Push Notification (FCM/APNs), Email hoặc SMS.
     \end{itemize}
@@ -38,7 +38,7 @@ Dự án có các tính năng tự động hóa, như giám sát môi trường 
 \subsubsection*{Module 3 — Giao diện điều khiển thiết bị}
 \begin{itemize}
   \item \textbf{Mục đích:} Cung cấp phương thức để người dùng chủ động kiểm soát, can thiệp thủ công và quản lý tập trung các thiết bị trong nhà.
-  \item \textbf{FR:}
+  \item \textbf{Yêu cầu chức năng:}
     \begin{itemize}
       \item Bật/tắt nhanh thiết bị đơn lẻ hoặc theo nhóm (grouping).
       \item Thiết lập lịch hẹn giờ (Scheduling / Timer) cho thiết bị.
@@ -50,7 +50,7 @@ Dự án có các tính năng tự động hóa, như giám sát môi trường 
 \subsubsection*{Module 4 — Lưu trữ lịch sử \& Sự kiện}
 \begin{itemize}
   \item \textbf{Mục đích:} Lưu vết (log) toàn bộ hoạt động của hệ thống phục vụ cho việc tra cứu, gỡ lỗi và phân tích dữ liệu dài hạn.
-  \item \textbf{FR:}
+  \item \textbf{Yêu cầu chức năng:}
     \begin{itemize}
       \item Lưu trữ dữ liệu dạng Time-series cho sensor readings.
       \item Ghi nhận lịch sử trạng thái thiết bị và event logs (ai đã bật/tắt cái gì, vào lúc nào).
@@ -63,7 +63,7 @@ Dự án có các tính năng tự động hóa, như giám sát môi trường 
 \subsubsection*{Module 5 — Điều khiển giọng nói \& Gợi ý thông minh}
 \begin{itemize}
   \item \textbf{Mục đích:} Nâng cao trải nghiệm tiện ích rảnh tay (hands-free) và cung cấp các đề xuất tự động giúp tối ưu hóa môi trường sống.
-  \item \textbf{FR:}
+  \item \textbf{Yêu cầu chức năng:}
     \begin{itemize}
       \item Chuyển đổi giọng nói thành văn bản (STT) và trích xuất ý định (Intent parsing) để ra lệnh cho thiết bị.
       \item Gợi ý ngữ cảnh thông minh: Khuyên người dùng mở rèm/cửa sổ khi thời tiết bên ngoài mát mẻ, hoặc đóng lại khi nắng gắt.

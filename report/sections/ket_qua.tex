@@ -1,9 +1,8 @@
-
 \section{Giao diện Website dự án}
 Để chứng minh kết quả phát triển giao diện hệ thống giám sát và điều khiển nhà thông minh \texttt{YOLOHome}, dưới đây là danh sách các ảnh chụp màn hình ghi nhận giao diện vận hành thực tế của hệ thống. Các tệp ảnh chụp giao diện được lưu trữ tại thư mục \texttt{figures/} dưới các tên tương ứng và được liên kết bằng các mã hình vẽ để dễ dàng kiểm tra.
 
 Hệ thống cung cấp màn hình Đăng nhập (\texttt{/}) và màn hình Đăng ký (\texttt{/signup}) có thiết kế giao diện theo phong cách Sleek Dark-mode tối giản và trực quan, hỗ trợ người dùng bảo mật tài khoản cá nhân. Sau khi đăng nhập thành công, người dùng được điều hướng đến trang Dashboard hiển thị thông số cảm biến môi trường thời gian thực.
-
+Giao diện hiển thị bao gồm lưới 3 thẻ (cards) riêng biệt: thẻ Nhiệt độ (hiển thị đơn vị $^\circ$C), thẻ Độ ẩm (hiển thị đơn vị \%) và thẻ Cường độ ánh sáng (hiển thị đơn vị lx) như mô tả tại nhãn hình ảnh \autoref{fig:ui-dashboard}.
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/ui-dashboard.jpg}
@@ -11,8 +10,7 @@ Hệ thống cung cấp màn hình Đăng nhập (\texttt{/}) và màn hình Đ�
     \label{fig:ui-dashboard}
 \end{figure}
 
-Giao diện Dashboard tại \autoref{fig:ui-dashboard} cập nhật dữ liệu liên tục sau mỗi 5 giây. Khi phát hiện các chỉ số cảm biến vượt qua ngưỡng cấu hình an toàn, hệ thống tự động sinh cảnh báo và hiển thị hộp thông tin màu đỏ nổi bật trực quan như trình bày tại \autoref{fig:ui-alert}.
-
+Giao diện Dashboard tại \autoref{fig:ui-dashboard} cập nhật dữ liệu liên tục sau mỗi 5 giây. Khi phát hiện các chỉ số cảm biến vượt qua ngưỡng cấu hình an toàn, hệ thống tự động sinh cảnh báo và hiển thị hộp thông tin màu đỏ ở phía dưới khu vực hiển thị các thẻ cảm biến môi trường trên Dashboard. Mỗi thông báo vi phạm chứa tên cảm biến được dịch hóa hoàn toàn sang tiếng Việt (ví dụ: "Nhiệt độ", "Độ ẩm", "Ánh sáng") cùng mô tả chi tiết giá trị thực đo so với ngưỡng an toàn quy định và có một nút bấm màu đỏ nhãn "Xác nhận" để giải tỏa cảnh báo (Tham chiếu: \autoref{fig:ui-alert}).
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/ui-alert.png}
@@ -20,7 +18,7 @@ Giao diện Dashboard tại \autoref{fig:ui-dashboard} cập nhật dữ liệu 
     \label{fig:ui-alert}
 \end{figure}
 
-Người dùng có thể chuyển hướng sang trang Quản lý thiết bị (\texttt{/devices}) để kiểm soát và theo dõi trạng thái hiện thời của các thiết bị chấp hành trong nhà bao gồm đèn LED, quạt thông gió và động cơ rèm cửa rực rỡ như mô tả trong \autoref{fig:ui-devices}.
+Người dùng có thể chuyển hướng sang trang Quản lý thiết bị (\texttt{/devices}) để kiểm soát và theo dõi trạng thái hiện thời của các thiết bị chấp hành trong nhà bao gồm đèn LED, quạt thông gió và động cơ rèm cửa. Trang Quản lý thiết bị (\texttt{/devices}) hiển thị nhãn tiêu đề "Các thiết bị được kết nối" và kết xuất lưới các thẻ điều khiển thiết bị bao gồm Đèn LED, Quạt và Rèm cửa động cơ Servo. Mỗi thẻ thiết bị hiển thị biểu tượng trạng thái cùng một công tắc gạt ngang để người dùng thao tác. Khi thiết bị được bật thành công, thẻ chuyển màu nền sáng nổi bật kèm nhãn hiển thị trạng thái "Active" (Tham chiếu: \autoref{fig:ui-devices}).
 
 \begin{figure}[H]
     \centering
@@ -29,13 +27,192 @@ Người dùng có thể chuyển hướng sang trang Quản lý thiết bị (\
     \label{fig:ui-devices}
 \end{figure}
 
-Cuối cùng, tính năng điều khiển bằng giọng nói tiếng Việt trôi nổi tích hợp ở góc phải chân màn hình Web hiển thị vòng tròn đỏ phát xung lan tỏa khi ghi âm và Toast báo kết quả được ghi nhận tại \autoref{fig:ui-voice}.
-
+Cuối cùng, giao diện điều khiển bằng giọng nói được triển khai dưới dạng một nút Microphone trôi nổi (Float component) luôn xuất hiện ở góc dưới bên phải màn hình Web Layout. Khi người dùng nhấp giữ chuột, biểu tượng Micro màu xanh chuyển sang hình ô vuông màu đỏ nhấp nháy phát xung lan tỏa thể hiện trạng thái đang ghi âm. Khi nhả chuột và Backend đang xử lý, nút chuyển sang biểu tượng xoay tải. Sau đó, một hộp Toast kết quả xuất hiện trên góc màn hình ghi nhận chi tiết câu lệnh người dùng nói và ý định hệ thống hiểu được (Tham chiếu: \autoref{fig:ui-voice}).
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.95\textwidth]{figures/ui-voice.jpg}
     \caption{Ảnh chụp giao diện nút ghi âm giọng nói tiếng Việt và Toast phản hồi kết quả}
     \label{fig:ui-voice}
+\end{figure}
+
+\section{Kết quả hiện thực hệ thống}
+Để chứng minh tính đúng đắn của các giải pháp thiết kế, chương này trình bày kết quả hiện thực hóa thực tế của hệ thống \texttt{YOLOHome} được phân tách chi tiết theo từng khối module chức năng, đi kèm các số liệu trắc lượng, ảnh chụp giao diện Web SPA và ảnh chụp thử nghiệm mạch phần cứng thực tế.
+
+\subsection{Module 1 — Kết quả Hiện thực Module Đo đạc và hiển thị môi trường}
+Module đo đạc môi trường đã được triển khai thực tế trên phần cứng Kit Yolo:Bit và vận hành ổn định trong môi trường phòng thử nghiệm. Tiến trình thực nghiệm được ghi nhận qua hai giai đoạn đồng bộ từ biên lên ứng dụng Web:
+
+Tại biên phần cứng, vi điều khiển thực hiện quét và lấy mẫu liên tục dữ liệu từ cảm biến DHT22 và mạch quang trở. Hệ thống đóng gói dữ liệu thô thành các khung truyền dạng Serial gửi về Edge Gateway qua cáp kết nối vật lý. Sơ đồ mạch kết nối thực tế và trạng thái hoạt động của các cảm biến tại phần cứng được thể hiện tại \autoref{fig:res-mod1-hardware-kit}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.80\textwidth]{figures/mod1-kit.jpg}
+    \caption{Kit phần cứng Yolo:Bit kết nối thực tế với các cảm biến đo đạc môi trường}
+    \label{fig:res-mod1-hardware-kit}
+\end{figure}
+
+Tại tầng ứng dụng, sau khi Backend Node.js hoàn thành việc gom bộ đệm và lưu snapshot dữ liệu chuỗi thời gian bền vững vào MongoDB, Trình duyệt Web của người dùng lập tức kết xuất số liệu thời gian thực. Hệ thống tự động cập nhật biến thiên liên tục với chu kỳ ngắn 5 giây mà không xảy ra hiện tượng trễ chỉ số (Tham chiếu: \autoref{fig:res-dashboard-mod1}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/dashboard-mod1.jpg}
+    \caption{Giao diện Web Dashboard hiển thị trực quan các thông số trắc lượng môi trường}
+    \label{fig:res-dashboard-mod1}
+\end{figure}
+
+
+\subsection{Module 2 — Kết quả Hiện thực Module Tự động hóa và cảnh báo Ngưỡng}
+Module tự động hóa và cảnh báo đã chứng minh được khả năng phản hồi thời gian thực khi xảy ra các kịch bản môi trường vượt ngưỡng an toàn. Kết quả thử nghiệm được xác thực đồng thời trên cả hai tuyến phần cứng vật lý và giao diện giám sát:
+
+Khi các thông số môi trường (như nhiệt độ hoặc ánh sáng) vượt quá biên độ an toàn quy định trong tệp cấu hình, Gateway lập tức phát lệnh Serial xuống vi điều khiển để kích hoạt các thiết bị chấp hành tương ứng nhằm khắc phục sự cố. Hình ảnh \autoref{fig:res-mod2-hardware-actuators} ghi nhận thực tế mạch phần cứng tự động đóng cấp nguồn cho quạt quay và bật đèn LED chiếu sáng tại phần cứng.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/mod2-fan.jpg}
+    \caption{Quạt thông gió tự động kích hoạt bật khi phát hiện vi phạm ngưỡng môi (nhiệt độ vượt quá 30$^\circ$C)}
+    \label{fig:res-hardware-fan-auto}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/mod2-led.jpg}
+    \caption{Đèn LED tự động bật chiếu sáng khi phát hiện vi phạm ngưỡng môi trường (cường độ ánh sáng nhỏ hơn 30\%)}
+    \label{fig:res-hardware-led-auto}
+\end{figure}
+
+Song song với luồng xử lý phần cứng, tại tầng ứng dụng trung tâm, ngay khi Backend tiếp nhận sự kiện vi phạm ngưỡng và xác thực không có cảnh báo trùng lặp, một bản ghi \texttt{Alert} mới được khởi tạo thành công trong cơ sở dữ liệu. Ngay lập tức, trên giao diện Web Dashboard của người dùng sẽ xuất hiện một hộp thông tin (Alert Card) mang tông màu đỏ nổi bật để cảnh báo trực quan cho người dùng cuối (Tham chiếu: \autoref{fig:res-ui-alert-mod2}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\textwidth]{figures/dashboard-mod2.jpg}
+    \caption{Giao diện Dashboard hiển thị hộp thông tin cảnh báo vi phạm ngưỡng an toàn}
+    \label{fig:res-ui-alert-mod2}
+\end{figure}
+
+
+\subsection{Module 3 — Kết quả Hiện thực Module Điều khiển thiết bị thủ công}
+Module kiểm soát thiết bị thủ công từ xa qua Web đã chứng minh được tính nhất quán trạng thái (State Consistency) nhờ luồng đồng bộ ngược từ chủ đề \texttt{/state} của mạng MQTT. Kết quả vận hành được ghi nhận trực quan qua các bước tương tác:
+
+Khi người dùng chuyển hướng sang trang Quản lý thiết bị (\texttt{/devices}), Khối tương tác Frontend sẽ kết xuất lưới cấu trúc các thẻ thiết bị (LED, Quạt, Rèm cửa Servo) tích hợp các công tắc gạt trạng thái (Toggle Switch) như minh họa tại \autoref{fig:res-ui-devices-mod3}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\textwidth]{figures/dashboard-mod3-led.jpg}
+    \caption{Giao diện lưới thẻ quản lý thiết bị và trạng thái công tắc gạt thủ công}
+    \label{fig:res-ui-devices-mod3}
+\end{figure}
+
+Khi người dùng tương tác gạt switch để ra lệnh bật quạt hoặc bật đèn LED, lệnh điều khiển được Backend dịch chuyển xuống cổng Serial. Mạch phần cứng đón nhận lệnh, tác động đóng Relay vật lý lập tức để cấp nguồn cho thiết bị hoạt động thực tế. Hình ảnh \autoref{fig:res-mod3-hardware-on} minh chứng kết quả đèn LED sáng và mô-tơ quạt quay tít sau khi nhận chỉ lệnh thủ công.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/mod3-on-led.jpg}
+    \caption{Đèn LED bật sáng trên mô hình thực tế sau khi tiếp nhận lệnh điều khiển thủ công từ giao diện Web}
+    \label{fig:res-hardware-led-manual}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/mod3-on-fan.jpg}
+    \caption{Quạt thông gió khởi động quay trên mô hình thực tế sau khi tiếp nhận lệnh điều khiển thủ công từ giao diện Web}
+    \label{fig:res-hardware-fan-manual}
+\end{figure}
+
+Ngay sau khi thiết bị chấp hành thực thi lệnh thành công và phản hồi chuỗi ký tự xác nhận ngược lên hệ thống, giao diện Website sẽ lập tức cập nhật trạng thái đồng bộ hai chiều. Lúc này, nút công tắc gạt (Toggle Switch) của thiết bị tương ứng trên màn hình sẽ tự động chuyển trạng thái (gạt từ Off sang On), đồng thời màu nền của thẻ thiết bị cũng chuyển sang tông màu sáng nổi bật kèm nhãn hiển thị "Active" để người dùng nhận biết trực quan rằng phần cứng tại biên đã hoạt động.
+
+\subsection{Module 4 — Kết quả Hiện thực Module Lưu trữ nhật ký và ghi nền dữ liệu}
+Module lưu trữ nhật ký vận hành hoàn toàn bất đồng bộ dưới dạng các dịch vụ chạy nền (Background Services), đảm bảo tốc độ ghi nhận thông tin cực cao mà không gây nghẽn luồng xử lý chính của ứng dụng Website. Kết quả thực nghiệm hệ thống cơ sở dữ liệu NoSQL được xác thực qua việc trích xuất trực tiếp cấu trúc tài liệu (Documents) từ các bộ sưu tập trên MongoDB:
+
+Tại bộ sưu tập quản lý thiết bị (\texttt{devices}), hệ thống lưu trữ toàn bộ danh sách thiết bị hiện diện trong ngôi nhà thông minh. Các tài liệu ghi nhận chi tiết thông tin cấu hình tĩnh bao gồm định danh thiết bị (\texttt{deviceId}), loại thiết bị (\texttt{type}), vị trí lắp đặt, kết hợp cùng các trường trạng thái động được cập nhật liên tục theo thời gian thực như cờ bật/tắt (\texttt{status}) và giá trị điều khiển cụ thể (như góc quay Servo). Điều này giúp hệ thống luôn bảo toàn được trạng thái kể cả khi xảy ra sự cố mất nguồn đột ngột (Tham chiếu: \autoref{fig:res-mod4-mongodb-devices}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/mongo-device.png}
+    \caption{Cấu trúc lưu trữ và cấu hình trạng thái thiết bị trong bộ sưu tập \texttt{devices}}
+    \label{fig:res-mod4-mongodb-devices}
+\end{figure}
+
+Tại bộ sưu tập dữ liệu môi trường (\texttt{sensors}), hệ thống đã ghi nhận chính xác các snapshot dữ liệu chuỗi thời gian gửi lên định kỳ từ Gateway. Mỗi bản ghi được đóng gói hoàn chỉnh gồm các trường số liệu thực tế kèm nhãn thời gian Unix chính xác đến từng mili-giây, phục vụ tối ưu cho tác vụ vẽ biểu đồ lịch sử (Tham chiếu: \autoref{fig:res-mod4-mongodb-sensors}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/mongo-sensors.png}
+    \caption{Nhật ký dữ liệu trắc lượng môi trường được lưu trữ thực tế trong bộ sưu tập \texttt{sensors}}
+    \label{fig:res-mod4-mongodb-sensors}
+\end{figure}
+
+Đối với các hành vi tác động chủ động của người dùng, bộ sưu tập nhật ký tương tác (\texttt{control\_traces}) đã lưu vết thành công toàn bộ tiến trình lệnh. Bản ghi lưu trữ làm rõ nguồn gốc lệnh (từ nút bấm giao diện \texttt{frontend} hoặc thông qua lệnh thoại \texttt{voice-api}), trạng thái thiết bị trước và sau khi tác động, giúp công tác giám sát hệ thống và gỡ lỗi (Debug) đạt hiệu quả cao (Tham chiếu: \autoref{fig:res-mod4-mongodb-control}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/mongo-control.png}
+    \caption{Nhật ký tương tác điều khiển thiết bị của người dùng trong bộ sưu tập \texttt{control\_traces}}
+    \label{fig:res-mod4-mongodb-control}
+\end{figure}
+
+Cuối cùng, các quyết định tự động của hệ thống khi phát hiện vi phạm biên độ an toàn cũng được ghi nhận độc lập trong bộ sưu tập vết tự động hóa (\texttt{threshold\_traces}). Kết quả thực nghiệm cho thấy hệ thống lưu trữ minh bạch thời điểm luật tự động bị kích hoạt, loại cảm biến vi phạm, và lệnh phần cứng tương ứng được đẩy xuống biên, giúp người dùng dễ dàng theo dõi dòng lịch sử vận hành tự động của ngôi nhà (Tham chiếu: \autoref{fig:res-mod4-mongodb-threshold}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{figures/mongo-threshold.png}
+    \caption{Nhật ký các quyết định tự động hóa của hệ thống trong bộ sưu tập \texttt{threshold\_traces}}
+    \label{fig:res-mod4-mongodb-threshold}
+\end{figure}
+
+
+\subsection{Module 5 — Kết quả Hiện thực Module Điều khiển bằng Giọng nói}
+Module điều khiển bằng giọng nói tiếng Việt đã được thử nghiệm thực tế thông qua việc phối hợp giữa ghi âm Web và các microservices trí tuệ nhân tạo (Vosk STT và mô hình ML phân loại ý định Intent). Kết quả thử nghiệm đạt độ chính xác cao và phản hồi trực quan theo hai tuyến lệnh:
+
+Khi người dùng nhấn giữ nút Microphone nổi ở góc dưới bên phải màn hình Web và nói lệnh thoại, giao diện hiển thị vòng tròn phát xung lan tỏa màu đỏ để ghi âm luồng tín hiệu mono WAV 16kHz. Ngay khi nhả chuột và hệ thống giải mã thành công, một hộp thông báo Toast đen mờ sẽ xuất hiện ở cạnh màn hình trong 5 giây để trực quan hóa chuỗi văn bản nhận diện được và ý định hệ thống đang thực thi (Tham chiếu: \autoref{fig:res-ui-voice-mod5}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.90\textwidth]{figures/ui-voice.jpg}
+    \caption{Giao diện Web ghi nhận hộp thông báo Toast phản hồi kết quả giải mã giọng nói}
+    \label{fig:res-ui-voice-mod5}
+\end{figure}
+
+Thực nghiệm lệnh bật thiết bị (ví dụ câu lệnh: "bật đèn", "bật quạt", "mở rèm") qua giọng nói ghi nhận các động cơ và Relay vật lý lập tức đáp ứng đổi trạng thái sang On thành công. Ngược lại, hiện thực lệnh tắt hệ thống (ví dụ câu lệnh: "tắt đèn", "tắt quạt", "đóng rèm") ghi nhận mạch vi điều khiển lập tức ngắt điện áp đầu ra vật lý tại biên phần cứng (Tham chiếu: \autoref{fig:res-mod5-hardware-voice}).
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/mod5-on-led.jpg}
+    \caption{Mạch phần cứng kích hoạt đóng Relay làm bật đèn LED sau khi tiếp nhận lệnh thoại "bật đèn"}
+    \label{fig:res-voice-on-led}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/mod5-on-fan.jpg}
+    \caption{Mạch phần cứng kích hoạt đóng Relay làm quạt thông gió quay sau khi tiếp nhận lệnh thoại "bật quạt"}
+    \label{fig:res-voice-on-fan}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/mod5-on-servo.jpg}
+    \caption{Động cơ Servo xoay góc $180^\circ$ để mở rèm cửa sau khi tiếp nhận lệnh thoại "mở rèm"}
+    \label{fig:res-voice-on-servo}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/mod5-off-led.jpg}
+    \caption{Mạch phần cứng ngắt điện áp chân điều khiển làm tắt đèn LED sau khi tiếp nhận lệnh thoại "tắt đèn"}
+    \label{fig:res-voice-off-led}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/mod5-off-fan.jpg}
+    \caption{Mạch phần cứng ngắt dòng qua Relay làm quạt thông gió dừng quay sau khi tiếp nhận lệnh thoại "tắt quạt"}
+    \label{fig:res-voice-off-fan}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.75\textwidth]{figures/mod5-off-servo.jpg}
+    \caption{Động cơ Servo xoay về góc $0^\circ$ để đóng rèm cửa sau khi tiếp nhận lệnh thoại "đóng rèm"}
+    \label{fig:res-voice-off-servo}
 \end{figure}
 
 % \section{Video demo}

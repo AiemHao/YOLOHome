@@ -23,50 +23,53 @@
 \contentsline {paragraph}{Luồng hoạt động C: Điều khiển bằng giọng nói}{14}{paragraph*.9}%
 \contentsline {subsection}{\numberline {4.2}Module 1 --- Đo đạc và hiển thị môi trường}{15}{subsection.4.2}%
 \contentsline {subsubsection}{\numberline {4.2.1}Mục tiêu}{15}{subsubsection.4.2.1}%
-\contentsline {subsubsection}{\numberline {4.2.2}Thành phần liên quan}{15}{subsubsection.4.2.2}%
-\contentsline {subsubsection}{\numberline {4.2.3}Luồng xử lý}{15}{subsubsection.4.2.3}%
-\contentsline {subsubsection}{\numberline {4.2.4}Giao diện người dùng}{16}{subsubsection.4.2.4}%
-\contentsline {subsubsection}{\numberline {4.2.5}Hạn chế và hướng phát triển}{16}{subsubsection.4.2.5}%
+\contentsline {subsubsection}{\numberline {4.2.2}Luồng xử lý}{15}{subsubsection.4.2.2}%
+\contentsline {subsubsection}{\numberline {4.2.3}Hạn chế và hướng phát triển}{15}{subsubsection.4.2.3}%
 \contentsline {subsection}{\numberline {4.3}Module 2 --- Tự động hóa và cảnh báo ngưỡng}{16}{subsection.4.3}%
 \contentsline {subsubsection}{\numberline {4.3.1}Mục tiêu}{16}{subsubsection.4.3.1}%
-\contentsline {subsubsection}{\numberline {4.3.2}Trạng thái cài đặt}{16}{subsubsection.4.3.2}%
-\contentsline {subsubsection}{\numberline {4.3.3}Thành phần liên quan}{16}{subsubsection.4.3.3}%
-\contentsline {subsubsection}{\numberline {4.3.4}Luồng xử lý}{17}{subsubsection.4.3.4}%
-\contentsline {subsubsection}{\numberline {4.3.5}Giao diện người dùng}{17}{subsubsection.4.3.5}%
-\contentsline {subsubsection}{\numberline {4.3.6}Hạn chế và hướng phát triển}{18}{subsubsection.4.3.6}%
-\contentsline {subsection}{\numberline {4.4}Module 3 --- Giao diện điều khiển thiết bị}{18}{subsection.4.4}%
-\contentsline {subsubsection}{\numberline {4.4.1}Mục tiêu}{18}{subsubsection.4.4.1}%
-\contentsline {subsubsection}{\numberline {4.4.2}Trạng thái cài đặt}{18}{subsubsection.4.4.2}%
-\contentsline {subsubsection}{\numberline {4.4.3}Thành phần liên quan}{18}{subsubsection.4.4.3}%
-\contentsline {subsubsection}{\numberline {4.4.4}Luồng xử lý}{19}{subsubsection.4.4.4}%
-\contentsline {subsubsection}{\numberline {4.4.5}Giao diện người dùng}{19}{subsubsection.4.4.5}%
-\contentsline {subsubsection}{\numberline {4.4.6}Hạn chế và hướng phát triển}{19}{subsubsection.4.4.6}%
-\contentsline {subsection}{\numberline {4.5}Module 4 --- Lưu trữ lịch sử và ghi sự kiện}{20}{subsection.4.5}%
-\contentsline {subsubsection}{\numberline {4.5.1}Mục tiêu}{20}{subsubsection.4.5.1}%
-\contentsline {subsubsection}{\numberline {4.5.2}Trạng thái cài đặt}{20}{subsubsection.4.5.2}%
-\contentsline {subsubsection}{\numberline {4.5.3}Thành phần liên quan}{20}{subsubsection.4.5.3}%
-\contentsline {subsubsection}{\numberline {4.5.4}Luồng xử lý}{20}{subsubsection.4.5.4}%
-\contentsline {subsubsection}{\numberline {4.5.5}Giao diện người dùng}{21}{subsubsection.4.5.5}%
-\contentsline {subsubsection}{\numberline {4.5.6}Hạn chế và hướng phát triển}{21}{subsubsection.4.5.6}%
-\contentsline {subsection}{\numberline {4.6}Module 5 --- Điều khiển bằng giọng nói và gợi ý thông minh}{21}{subsection.4.6}%
-\contentsline {subsubsection}{\numberline {4.6.1}Mục tiêu}{21}{subsubsection.4.6.1}%
-\contentsline {subsubsection}{\numberline {4.6.2}Thành phần liên quan}{21}{subsubsection.4.6.2}%
-\contentsline {subsubsection}{\numberline {4.6.3}Luồng xử lý}{22}{subsubsection.4.6.3}%
-\contentsline {subsubsection}{\numberline {4.6.4}Giao diện người dùng}{22}{subsubsection.4.6.4}%
-\contentsline {subsubsection}{\numberline {4.6.5}Hạn chế và hướng phát triển}{22}{subsubsection.4.6.5}%
-\contentsline {subsection}{\numberline {4.7}Thiết kế AI: Điều khiển bằng giọng nói}{23}{subsection.4.7}%
-\contentsline {subsection}{\numberline {4.8}Thiết kế AI: Gợi ý thông minh dựa trên dữ liệu môi trường}{23}{subsection.4.8}%
-\contentsline {subsubsection}{\numberline {4.8.1}Xây dựng tập dữ liệu (Dataset)}{23}{subsubsection.4.8.1}%
-\contentsline {subsubsection}{\numberline {4.8.2}Cấu trúc mô hình}{24}{subsubsection.4.8.2}%
-\contentsline {subsubsection}{\numberline {4.8.3}Đánh giá kết quả (Evaluation)}{24}{subsubsection.4.8.3}%
-\contentsline {subsubsection}{\numberline {4.8.4}Hướng phát triển}{25}{subsubsection.4.8.4}%
-\contentsline {subsection}{\numberline {4.9}Yolo:Bit}{25}{subsection.4.9}%
-\contentsline {subsubsection}{\numberline {4.9.1}1. Giai đoạn khởi tạo (Initialization)}{25}{subsubsection.4.9.1}%
-\contentsline {subsubsection}{\numberline {4.9.2}2. Luồng thu thập dữ liệu và Giao tiếp Serial (Main Loop)}{25}{subsubsection.4.9.2}%
-\contentsline {subsubsection}{\numberline {4.9.3}3. Luồng xử lý sự kiện (Event Manager)}{26}{subsubsection.4.9.3}%
-\contentsline {subsubsection}{\numberline {4.9.4}4. Luồng đồng bộ trạng thái định kỳ (Timer Event)}{26}{subsubsection.4.9.4}%
-\contentsline {subsection}{\numberline {4.10}Các kênh giao tiếp}{26}{subsection.4.10}%
-\contentsline {section}{\numberline {5}Giao diện Website dự án}{30}{section.5}%
-\contentsline {section}{\numberline {6}Tổng kết dự án}{32}{section.6}%
-\contentsline {subsection}{\numberline {6.1}Kết quả đạt được}{32}{subsection.6.1}%
-\contentsline {subsection}{\numberline {6.2}Hướng phát triển tương lai}{32}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {4.3.2}Luồng xử lý}{16}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}Trạng thái cài đặt}{17}{subsubsection.4.3.3}%
+\contentsline {subsubsection}{\numberline {4.3.4}Hạn chế và hướng phát triển}{17}{subsubsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.4}Module 3 --- Giao diện điều khiển thiết bị}{17}{subsection.4.4}%
+\contentsline {subsubsection}{\numberline {4.4.1}Mục tiêu}{17}{subsubsection.4.4.1}%
+\contentsline {subsubsection}{\numberline {4.4.2}Luồng xử lý}{17}{subsubsection.4.4.2}%
+\contentsline {subsubsection}{\numberline {4.4.3}Trạng thái cài đặt}{18}{subsubsection.4.4.3}%
+\contentsline {subsubsection}{\numberline {4.4.4}Hạn chế và hướng phát triển}{18}{subsubsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.5}Module 4 --- Lưu trữ lịch sử và ghi sự kiện}{19}{subsection.4.5}%
+\contentsline {subsubsection}{\numberline {4.5.1}Mục tiêu}{19}{subsubsection.4.5.1}%
+\contentsline {subsubsection}{\numberline {4.5.2}Luồng xử lý}{19}{subsubsection.4.5.2}%
+\contentsline {subsubsection}{\numberline {4.5.3}Trạng thái cài đặt}{19}{subsubsection.4.5.3}%
+\contentsline {subsubsection}{\numberline {4.5.4}Hạn chế và hướng phát triển}{20}{subsubsection.4.5.4}%
+\contentsline {subsection}{\numberline {4.6}Module 5 --- Điều khiển bằng giọng nói và gợi ý thông minh}{20}{subsection.4.6}%
+\contentsline {subsubsection}{\numberline {4.6.1}Mục tiêu}{20}{subsubsection.4.6.1}%
+\contentsline {subsubsection}{\numberline {4.6.2}Luồng xử lý}{20}{subsubsection.4.6.2}%
+\contentsline {subsubsection}{\numberline {4.6.3}Giao diện người dùng}{21}{subsubsection.4.6.3}%
+\contentsline {subsubsection}{\numberline {4.6.4}Hạn chế và hướng phát triển}{21}{subsubsection.4.6.4}%
+\contentsline {subsection}{\numberline {4.7}Thiết kế AI: Điều khiển bằng giọng nói}{21}{subsection.4.7}%
+\contentsline {subsubsection}{\numberline {4.7.1}Nhận diện giọng nói với Vosk}{22}{subsubsection.4.7.1}%
+\contentsline {subsubsection}{\numberline {4.7.2}Phân loại ý định (Intent Classifier)}{22}{subsubsection.4.7.2}%
+\contentsline {paragraph}{Xây dựng tập dữ liệu (Dataset)}{22}{paragraph*.11}%
+\contentsline {paragraph}{Cấu trúc mô hình}{23}{paragraph*.12}%
+\contentsline {paragraph}{Đánh giá kết quả (Evaluation)}{24}{paragraph*.13}%
+\contentsline {paragraph}{Hướng phát triển}{24}{paragraph*.14}%
+\contentsline {subsection}{\numberline {4.8}Thiết kế AI: Gợi ý thông minh dựa trên dữ liệu môi trường}{24}{subsection.4.8}%
+\contentsline {subsubsection}{\numberline {4.8.1}Xây dựng tập dữ liệu (Dataset)}{24}{subsubsection.4.8.1}%
+\contentsline {subsubsection}{\numberline {4.8.2}Cấu trúc mô hình}{25}{subsubsection.4.8.2}%
+\contentsline {subsubsection}{\numberline {4.8.3}Đánh giá kết quả (Evaluation)}{26}{subsubsection.4.8.3}%
+\contentsline {subsubsection}{\numberline {4.8.4}Hướng phát triển}{26}{subsubsection.4.8.4}%
+\contentsline {subsection}{\numberline {4.9}Yolo:Bit}{26}{subsection.4.9}%
+\contentsline {subsubsection}{\numberline {4.9.1}Giai đoạn khởi tạo (Initialization)}{26}{subsubsection.4.9.1}%
+\contentsline {subsubsection}{\numberline {4.9.2}Luồng thu thập dữ liệu và Giao tiếp Serial (Main Loop)}{27}{subsubsection.4.9.2}%
+\contentsline {subsubsection}{\numberline {4.9.3}Luồng xử lý sự kiện (Event Manager)}{27}{subsubsection.4.9.3}%
+\contentsline {subsubsection}{\numberline {4.9.4}Luồng đồng bộ trạng thái định kỳ (Timer Event)}{27}{subsubsection.4.9.4}%
+\contentsline {subsection}{\numberline {4.10}Các kênh giao tiếp}{27}{subsection.4.10}%
+\contentsline {section}{\numberline {5}Giao diện Website dự án}{31}{section.5}%
+\contentsline {section}{\numberline {6}Kết quả hiện thực hệ thống}{34}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Module 1 — Kết quả Hiện thực Module Đo đạc và hiển thị môi trường}{34}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Module 2 — Kết quả Hiện thực Module Tự động hóa và cảnh báo Ngưỡng}{35}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Module 3 — Kết quả Hiện thực Module Điều khiển thiết bị thủ công}{38}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Module 4 — Kết quả Hiện thực Module Lưu trữ nhật ký và ghi nền dữ liệu}{41}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Module 5 — Kết quả Hiện thực Module Điều khiển bằng Giọng nói}{43}{subsection.6.5}%
+\contentsline {section}{\numberline {7}Tổng kết dự án}{50}{section.7}%
+\contentsline {subsection}{\numberline {7.1}Kết quả đạt được}{50}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}Hướng phát triển tương lai}{51}{subsection.7.2}%
