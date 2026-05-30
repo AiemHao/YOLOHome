@@ -1,0 +1,83 @@
+
+\section{Giới Thiệu \& Phân Tích Yêu Cầu}
+\subsection{Giới thiệu}
+Trong các hộ gia đình hiện nay, việc theo dõi và kiểm soát các chỉ số an toàn môi trường sống như nhiệt độ, độ ẩm và cường độ ánh sáng đóng vai trò vô cùng quan trọng. Sự biến động bất thường của môi trường không chỉ ảnh hưởng trực tiếp đến sức khỏe của các thành viên trong gia đình mà còn tiềm ẩn nhiều nguy cơ cháy nổ nguy hiểm (khi nhiệt độ vượt ngưỡng quá cao), phát sinh ẩm mốc gây hại cho các thiết bị điện tử, hoặc không gian sống thiếu ánh sáng thích hợp. Do đó, nhu cầu giám sát an toàn môi trường sống luôn là ưu tiên hàng đầu.
+
+Tuy nhiên, việc kiểm soát các thiết bị chấp hành (như quạt gió, đèn chiếu sáng, hay động cơ rèm cửa) một cách thủ công thường bộc lộ nhiều hạn chế lớn. Phương pháp vận hành thủ công đòi hỏi con người phải liên tục túc trực để nhận biết biến động và đưa ra phản ứng. Điều này gây tiêu tốn thời gian và hoàn toàn không thể bảo đảm phản ứng kịp thời khi có các sự cố bất ngờ xảy ra, đặc biệt là trong những khoảng thời gian người dùng vắng nhà hoặc đang ngủ sâu giấc.
+
+Sự phát triển mạnh mẽ của công nghệ mạng không dây cùng trí tuệ nhân tạo đã mở ra xu thế tự động hóa và điều khiển thông minh trong các hệ sinh thái nhà thông minh (Smart Home). Bằng cách kết hợp linh hoạt giữa các cảm biến vật lý thu thập dữ liệu thời gian thực, giao thức giao tiếp bất đồng bộ hiệu năng cao như MQTT, và các mô hình học máy (nhận diện giọng nói tiếng Việt Vosk STT, phân loại ý định ML, hoặc cây quyết định Decision Tree tự động hóa), hệ thống có thể chủ động giám sát an toàn và vận hành tối ưu năng lượng, kiến tạo một không gian sống tiện nghi, tự động và an toàn tuyệt đối.
+
+\subsection{Phân tích yêu cầu}
+Dự án có các tính năng tự động hóa, như giám sát môi trường và điều khiển tự
+động các thiết bị, nhà thông minh hiện nay được bổ sung thêm công nghệ kết nối vạn vật, để nó có thể chia sẻ dữ liệu qua mạng Internet hay điều khiển thông minh với công nghệ trí tuệ nhân tạo.
+\subsubsection*{Module 1 — Đo đạc \& Hiển thị (Môi trường)}
+\begin{itemize}
+  \item \textbf{Mục đích:} Thu thập liên tục, xử lý và hiển thị trực quan các thông số môi trường (nhiệt độ, độ ẩm, cường độ ánh sáng) tại thời gian thực.
+  \item \textbf{Yêu cầu chức năng:}
+    \begin{itemize}
+      \item Lấy mẫu định kỳ với tần suất 60 giây/lần.
+      \item Chuẩn hóa dữ liệu thô sang các đơn vị đo lường chuẩn (°C, \%RH, lux).
+      \item Hiển thị dữ liệu thời gian thực trên Dashboard của App/Web dưới dạng số và biểu đồ cơ bản.
+    \end{itemize}
+
+\end{itemize}
+
+\subsubsection*{Module 2 — Tự động hóa ngưỡng \& Cảnh báo}
+\begin{itemize}
+  \item \textbf{Mục đích:} Tự động hóa hoạt động của thiết bị dựa trên bộ luật (rules) điều kiện môi trường và kịp thời gửi cảnh báo khi có sự cố.
+  \item \textbf{Yêu cầu chức năng:}
+    \begin{itemize}
+      \item Hỗ trợ quản lý (thêm, sửa, xóa) các bộ ngưỡng cấu hình ngày/đêm và các kịch bản tự động.
+      \item Trigger hành động khi vượt ngưỡng: Tự bật đèn khi thiếu sáng, bật quạt/điều hòa khi nhiệt độ cao, bật servo/rèm khi không khí mát mẻ.
+      \item Cơ chế Override: Tạm dừng kịch bản tự động nếu người dùng can thiệp thủ công.
+      \item Gửi thông báo trạng thái hoặc cảnh báo khẩn cấp qua Push Notification (FCM/APNs), Email hoặc SMS.
+    \end{itemize}
+
+\end{itemize}
+
+\subsubsection*{Module 3 — Giao diện điều khiển thiết bị}
+\begin{itemize}
+  \item \textbf{Mục đích:} Cung cấp phương thức để người dùng chủ động kiểm soát, can thiệp thủ công và quản lý tập trung các thiết bị trong nhà.
+  \item \textbf{Yêu cầu chức năng:}
+    \begin{itemize}
+      \item Bật/tắt nhanh thiết bị đơn lẻ hoặc theo nhóm (grouping).
+      \item Thiết lập lịch hẹn giờ (Scheduling / Timer) cho thiết bị.
+      \item Đồng bộ trạng thái hai chiều (Device $\leftrightarrow$ Server $\leftrightarrow$ App) để luôn hiển thị đúng trạng thái thật của phần cứng.
+    \end{itemize}
+
+\end{itemize}
+
+\subsubsection*{Module 4 — Lưu trữ lịch sử \& Sự kiện}
+\begin{itemize}
+  \item \textbf{Mục đích:} Lưu vết (log) toàn bộ hoạt động của hệ thống phục vụ cho việc tra cứu, gỡ lỗi và phân tích dữ liệu dài hạn.
+  \item \textbf{Yêu cầu chức năng:}
+    \begin{itemize}
+      \item Lưu trữ dữ liệu dạng Time-series cho sensor readings.
+      \item Ghi nhận lịch sử trạng thái thiết bị và event logs (ai đã bật/tắt cái gì, vào lúc nào).
+      \item Ghi log các sự kiện hệ thống: Cảnh báo tự động, lỗi kết nối thiết bị.
+      \item Trích xuất dữ liệu lịch sử theo khoảng thời gian tùy chọn.
+    \end{itemize}
+
+\end{itemize}
+
+\subsubsection*{Module 5 — Điều khiển giọng nói \& Gợi ý thông minh}
+\begin{itemize}
+  \item \textbf{Mục đích:} Nâng cao trải nghiệm tiện ích rảnh tay (hands-free) và cung cấp các đề xuất tự động giúp tối ưu hóa môi trường sống.
+  \item \textbf{Yêu cầu chức năng:}
+    \begin{itemize}
+      \item Chuyển đổi giọng nói thành văn bản (STT) và trích xuất ý định (Intent parsing) để ra lệnh cho thiết bị.
+      \item Gợi ý ngữ cảnh thông minh: Khuyên người dùng mở rèm/cửa sổ khi thời tiết bên ngoài mát mẻ, hoặc đóng lại khi nắng gắt.
+    \end{itemize}
+
+\end{itemize}
+
+
+
+% \section{Tổng quan báo cáo}
+% Nội dung của bản báo cáo dự án \texttt{YOLOHome} được cấu trúc chặt chẽ thành 4 chương chính như sau:
+% \begin{itemize}
+%     \item \textbf{Chương 1 --- Mở đầu}: Giới thiệu bối cảnh thực tế, tầm quan trọng của hệ thống nhà thông minh, mô tả khái quát kiến trúc bốn thành phần của \texttt{YOLOHome} và trình bày bố cục chi tiết của toàn bộ báo cáo.
+%     \item \textbf{Chương 2 --- Thiết kế hệ thống --- Tổng quan}: Tập trung phân tích sâu kiến trúc tổng thể của hệ thống dưới dạng sơ đồ thành phần, xây dựng 3 luồng tuần tự dữ liệu chính (điều khiển thiết bị thủ công, thu thập cảm biến tự động kết hợp cảnh báo ngưỡng, và xử lý giọng nói tiếng Việt), đồng thời liệt kê chi tiết các kênh truyền thông liên kết bằng bảng chuẩn học thuật.
+%     \item \textbf{Chương 3 --- Thiết kế chi tiết theo module}: Đánh giá chi tiết từng module nghiệp vụ cụ thể bao gồm mục tiêu thiết kế, trạng thái thực thi, thành phần liên quan, luồng xử lý chi tiết, minh họa giao diện, trích đoạn mã nguồn tiêu biểu dưới 15 dòng và các đánh giá hạn chế trung thực cùng hướng phát triển tiếp theo của hệ thống.
+%     \item \textbf{Chương 4 --- Kết quả}: Trình bày danh mục các giao diện thực tế thu được bằng ảnh chụp màn hình, mô tả kịch bản video thuyết minh thực tế vận hành hệ thống, và cung cấp đường dẫn mã nguồn trên nền tảng GitHub cùng lịch sử các commit mới nhất.
+% \end{itemize}
