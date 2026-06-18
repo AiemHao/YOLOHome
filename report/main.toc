@@ -43,23 +43,22 @@
 \contentsline {subsection}{\numberline {4.6}Module 5 --- Điều khiển bằng giọng nói và gợi ý thông minh}{20}{subsection.4.6}%
 \contentsline {subsubsection}{\numberline {4.6.1}Mục tiêu}{20}{subsubsection.4.6.1}%
 \contentsline {subsubsection}{\numberline {4.6.2}Luồng xử lý}{20}{subsubsection.4.6.2}%
-\contentsline {subsubsection}{\numberline {4.6.3}Giao diện người dùng}{21}{subsubsection.4.6.3}%
-\contentsline {subsubsection}{\numberline {4.6.4}Hạn chế và hướng phát triển}{21}{subsubsection.4.6.4}%
+\contentsline {subsubsection}{\numberline {4.6.3}Hạn chế và hướng phát triển}{21}{subsubsection.4.6.3}%
 \contentsline {subsection}{\numberline {4.7}Thiết kế AI: Điều khiển bằng giọng nói}{21}{subsection.4.7}%
-\contentsline {subsubsection}{\numberline {4.7.1}Nhận diện giọng nói với Vosk}{22}{subsubsection.4.7.1}%
+\contentsline {subsubsection}{\numberline {4.7.1}Nhận diện giọng nói với Vosk}{21}{subsubsection.4.7.1}%
 \contentsline {subsubsection}{\numberline {4.7.2}Phân loại ý định (Intent Classifier)}{22}{subsubsection.4.7.2}%
 \contentsline {paragraph}{Xây dựng tập dữ liệu (Dataset)}{22}{paragraph*.11}%
 \contentsline {paragraph}{Cấu trúc mô hình}{23}{paragraph*.12}%
-\contentsline {paragraph}{Đánh giá kết quả (Evaluation)}{24}{paragraph*.13}%
+\contentsline {paragraph}{Đánh giá kết quả (Evaluation)}{23}{paragraph*.13}%
 \contentsline {paragraph}{Hướng phát triển}{24}{paragraph*.14}%
 \contentsline {subsection}{\numberline {4.8}Thiết kế AI: Gợi ý thông minh dựa trên dữ liệu môi trường}{24}{subsection.4.8}%
 \contentsline {subsubsection}{\numberline {4.8.1}Xây dựng tập dữ liệu (Dataset)}{24}{subsubsection.4.8.1}%
 \contentsline {subsubsection}{\numberline {4.8.2}Cấu trúc mô hình}{25}{subsubsection.4.8.2}%
-\contentsline {subsubsection}{\numberline {4.8.3}Đánh giá kết quả (Evaluation)}{26}{subsubsection.4.8.3}%
+\contentsline {subsubsection}{\numberline {4.8.3}Đánh giá kết quả (Evaluation)}{25}{subsubsection.4.8.3}%
 \contentsline {subsubsection}{\numberline {4.8.4}Hướng phát triển}{26}{subsubsection.4.8.4}%
 \contentsline {subsection}{\numberline {4.9}Yolo:Bit}{26}{subsection.4.9}%
 \contentsline {subsubsection}{\numberline {4.9.1}Giai đoạn khởi tạo (Initialization)}{26}{subsubsection.4.9.1}%
-\contentsline {subsubsection}{\numberline {4.9.2}Luồng thu thập dữ liệu và Giao tiếp Serial (Main Loop)}{27}{subsubsection.4.9.2}%
+\contentsline {subsubsection}{\numberline {4.9.2}Luồng thu thập dữ liệu và Giao tiếp Serial (Main Loop)}{26}{subsubsection.4.9.2}%
 \contentsline {subsubsection}{\numberline {4.9.3}Luồng xử lý sự kiện (Event Manager)}{27}{subsubsection.4.9.3}%
 \contentsline {subsubsection}{\numberline {4.9.4}Luồng đồng bộ trạng thái định kỳ (Timer Event)}{27}{subsubsection.4.9.4}%
 \contentsline {subsection}{\numberline {4.10}Các kênh giao tiếp}{27}{subsection.4.10}%

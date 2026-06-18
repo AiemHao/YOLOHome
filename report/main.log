@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.29)  30 MAY 2026 16:41
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (MiKTeX 25.12) (preloaded format=pdflatex 2026.5.29)  3 JUN 2026 12:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1682,7 +1682,7 @@ Package hyperref Info: Link coloring ON on input line 194.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<Images/Logo BK.png, id=306, 734.745pt x 733.5405pt>
+<Images/Logo BK.png, id=274, 734.745pt x 733.5405pt>
 File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
 Package pdftex.def Info: Images/Logo BK.png  used on input line 33.
@@ -1742,12 +1742,7 @@ File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
 Package pdftex.def Info: Images/Logo BK.png  used on input line 39.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
- [2]
-File: Images/Logo BK.png Graphic file (type png)
-<use Images/Logo BK.png>
-Package pdftex.def Info: Images/Logo BK.png  used on input line 79.
-(pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
- [3])
+ [2])
 \tf@toc=\write5
 \openout5 = `main.toc'.
 
@@ -1755,7 +1750,7 @@ File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
 Package pdftex.def Info: Images/Logo BK.png  used on input line 7.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
- [4]) (sections/mo_dau.tex
+ [3]) (sections/mo_dau.tex
 File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
 Package pdftex.def Info: Images/Logo BK.png  used on input line 30.
@@ -1809,7 +1804,7 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 11.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [9]
-<figures/kien-truc-tong-the.png, id=465, 2059.695pt x 2055.68pt>
+<figures/kien-truc-tong-the.png, id=421, 2059.695pt x 2055.68pt>
 File: figures/kien-truc-tong-the.png Graphic file (type png)
 <use figures/kien-truc-tong-the.png>
 Package pdftex.def Info: figures/kien-truc-tong-the.png  used on input line 68.
@@ -1825,7 +1820,7 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 80.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [11 <./figures/kien-truc-tong-the.png>]
-<figures/flow-a-dieu-khien.png, id=479, 2055.68pt x 2055.68pt>
+<figures/flow-a-dieu-khien.png, id=435, 2055.68pt x 2055.68pt>
 File: figures/flow-a-dieu-khien.png Graphic file (type png)
 <use figures/flow-a-dieu-khien.png>
 Package pdftex.def Info: figures/flow-a-dieu-khien.png  used on input line 108.
@@ -1837,7 +1832,7 @@ Package pdftex.def Info: Images/Logo BK.png  used on input line 115.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
 
 [12 <./figures/flow-a-dieu-khien.png>]
-<figures/flow-b-canh-bao.png, id=489, 2055.68pt x 2055.68pt>
+<figures/flow-b-canh-bao.png, id=445, 2055.68pt x 2055.68pt>
 File: figures/flow-b-canh-bao.png Graphic file (type png)
 <use figures/flow-b-canh-bao.png>
 Package pdftex.def Info: figures/flow-b-canh-bao.png  used on input line 145.
@@ -1847,7 +1842,7 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 152.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [13 <./figures/flow-b-canh-bao.png>]
-<figures/flow-c-giong-noi.png, id=498, 246.6816pt x 246.6816pt>
+<figures/flow-c-giong-noi.png, id=454, 246.6816pt x 246.6816pt>
 File: figures/flow-c-giong-noi.png Graphic file (type png)
 <use figures/flow-c-giong-noi.png>
 Package pdftex.def Info: figures/flow-c-giong-noi.png  used on input line 182.
@@ -1912,32 +1907,32 @@ Package pdftex.def Info: Images/Logo BK.png  used on input line 534.
  [20]
 File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
-Package pdftex.def Info: Images/Logo BK.png  used on input line 552.
+Package pdftex.def Info: Images/Logo BK.png  used on input line 555.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [21]
 File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
-Package pdftex.def Info: Images/Logo BK.png  used on input line 570.
+Package pdftex.def Info: Images/Logo BK.png  used on input line 576.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [22]
 File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
-Package pdftex.def Info: Images/Logo BK.png  used on input line 593.
+Package pdftex.def Info: Images/Logo BK.png  used on input line 597.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [23]
 File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
-Package pdftex.def Info: Images/Logo BK.png  used on input line 613.
+Package pdftex.def Info: Images/Logo BK.png  used on input line 618.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [24]
 File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
-Package pdftex.def Info: Images/Logo BK.png  used on input line 631.
+Package pdftex.def Info: Images/Logo BK.png  used on input line 639.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [25]
 File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
-Package pdftex.def Info: Images/Logo BK.png  used on input line 657.
+Package pdftex.def Info: Images/Logo BK.png  used on input line 660.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [26]
 Underfull \hbox (badness 1931) in paragraph at lines 690--691
@@ -2064,21 +2059,21 @@ Overfull \hbox (5.32082pt too wide) in alignment at lines 701--720
  [] [] [] [] 
  []
 
+ignored error: Infinite glue shrinkage found in box being split
 File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
 Package pdftex.def Info: Images/Logo BK.png  used on input line 720.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
-[27]
-File: Images/Logo BK.png Graphic file (type png)
-<use Images/Logo BK.png>
-Package pdftex.def Info: Images/Logo BK.png  used on input line 723.
-(pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
- [28]
+ [27]
 Underfull \hbox (badness 3838) in paragraph at lines 732--733
 []|\T5/cmr/m/n/10 Gûi y¶u c¦u ^^_i·u khiºn thi¸t bà
  []
 
-
+File: Images/Logo BK.png Graphic file (type png)
+<use Images/Logo BK.png>
+Package pdftex.def Info: Images/Logo BK.png  used on input line 740.
+(pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
+[28]
 Underfull \hbox (badness 4048) in paragraph at lines 753--754
 []|\T5/cmtt/m/n/10 !Lu:100# \T5/cmr/m/n/10 (C÷íng ^^_ë ¡nh
  []
@@ -2093,12 +2088,12 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 1.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [30]
-<figures/ui-dashboard.jpg, id=614, 1852.9225pt x 936.49875pt>
+<figures/ui-dashboard.jpg, id=568, 1852.9225pt x 936.49875pt>
 File: figures/ui-dashboard.jpg Graphic file (type jpg)
 <use figures/ui-dashboard.jpg>
 Package pdftex.def Info: figures/ui-dashboard.jpg  used on input line 8.
 (pdftex.def)             Requested size: 459.51054pt x 232.23785pt.
-<figures/ui-alert.png, id=617, 913.61325pt x 473.97075pt>
+<figures/ui-alert.png, id=571, 913.61325pt x 473.97075pt>
 File: figures/ui-alert.png Graphic file (type png)
 <use figures/ui-alert.png>
 Package pdftex.def Info: figures/ui-alert.png  used on input line 16.
@@ -2108,7 +2103,7 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 19.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [31 <./figures/ui-dashboard.jpg>]
-<figures/ui-devices.jpg, id=625, 1849.91125pt x 942.52126pt>
+<figures/ui-devices.jpg, id=579, 1849.91125pt x 942.52126pt>
 File: figures/ui-devices.jpg Graphic file (type jpg)
 <use figures/ui-devices.jpg>
 Package pdftex.def Info: figures/ui-devices.jpg  used on input line 25.
@@ -2118,7 +2113,7 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 29.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [32 <./figures/ui-alert.png>]
-<figures/ui-voice.jpg, id=636, 1834.855pt x 947.54pt>
+<figures/ui-voice.jpg, id=589, 1834.855pt x 947.54pt>
 File: figures/ui-voice.jpg Graphic file (type jpg)
 <use figures/ui-voice.jpg>
 Package pdftex.def Info: figures/ui-voice.jpg  used on input line 33.
@@ -2128,12 +2123,12 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 40.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [33 <./figures/ui-devices.jpg> <./figures/ui-voice.jpg>]
-<figures/mod1-kit.jpg, id=643, 1284.8pt x 963.6pt>
+<figures/mod1-kit.jpg, id=598, 1284.8pt x 963.6pt>
 File: figures/mod1-kit.jpg Graphic file (type jpg)
 <use figures/mod1-kit.jpg>
 Package pdftex.def Info: figures/mod1-kit.jpg  used on input line 48.
 (pdftex.def)             Requested size: 386.95897pt x 290.21439pt.
-<figures/dashboard-mod1.jpg, id=645, 1927.2pt x 1084.05pt>
+<figures/dashboard-mod1.jpg, id=600, 1927.2pt x 1084.05pt>
 File: figures/dashboard-mod1.jpg Graphic file (type jpg)
 <use figures/dashboard-mod1.jpg>
 Package pdftex.def Info: figures/dashboard-mod1.jpg  used on input line 57.
@@ -2144,11 +2139,7 @@ Package pdftex.def Info: Images/Logo BK.png  used on input line 61.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
 
 [34 <./figures/mod1-kit.jpg>]
-
-LaTeX Warning: Reference `fig:res-mod2-hardware-actuators' on page 35 undefined
- on input line 66.
-
-<figures/mod2-fan.jpg, id=653, 963.6pt x 1284.8pt>
+<figures/mod2-fan.jpg, id=609, 963.6pt x 1284.8pt>
 File: figures/mod2-fan.jpg Graphic file (type jpg)
 <use figures/mod2-fan.jpg>
 Package pdftex.def Info: figures/mod2-fan.jpg  used on input line 70.
@@ -2159,8 +2150,8 @@ File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
 Package pdftex.def Info: Images/Logo BK.png  used on input line 74.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
-[35 <./figures/dashboard-mod1.jpg>]
-<figures/mod2-led.jpg, id=659, 1284.8pt x 963.6pt>
+ [35 <./figures/dashboard-mod1.jpg>]
+<figures/mod2-led.jpg, id=616, 1284.8pt x 963.6pt>
 File: figures/mod2-led.jpg Graphic file (type jpg)
 <use figures/mod2-led.jpg>
 Package pdftex.def Info: figures/mod2-led.jpg  used on input line 77.
@@ -2170,7 +2161,7 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 81.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [36 <./figures/mod2-fan.jpg>]
-<figures/dashboard-mod2.jpg, id=668, 1927.2pt x 1084.05pt>
+<figures/dashboard-mod2.jpg, id=624, 1927.2pt x 1084.05pt>
 File: figures/dashboard-mod2.jpg Graphic file (type jpg)
 <use figures/dashboard-mod2.jpg>
 Package pdftex.def Info: figures/dashboard-mod2.jpg  used on input line 86.
@@ -2180,18 +2171,13 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 94.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [37 <./figures/mod2-led.jpg> <./figures/dashboard-mod2.jpg>]
-<figures/dashboard-mod3-led.jpg, id=677, 1927.2pt x 1084.05pt>
+<figures/dashboard-mod3-led.jpg, id=633, 1927.2pt x 1084.05pt>
 File: figures/dashboard-mod3-led.jpg Graphic file (type jpg)
 <use figures/dashboard-mod3-led.jpg>
 Package pdftex.def Info: figures/dashboard-mod3-led.jpg  used on input line 99.
 
 (pdftex.def)             Requested size: 435.32422pt x 244.86012pt.
-
-
-LaTeX Warning: Reference `fig:res-mod3-hardware-on' on page 38 undefined on inp
-ut line 104.
-
-<figures/mod3-on-led.jpg, id=678, 963.6pt x 1284.8pt>
+<figures/mod3-on-led.jpg, id=636, 963.6pt x 1284.8pt>
 File: figures/mod3-on-led.jpg Graphic file (type jpg)
 <use figures/mod3-on-led.jpg>
 Package pdftex.def Info: figures/mod3-on-led.jpg  used on input line 108.
@@ -2200,8 +2186,9 @@ File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
 Package pdftex.def Info: Images/Logo BK.png  used on input line 112.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
+
 [38 <./figures/dashboard-mod3-led.jpg>]
-<figures/mod3-on-fan.jpg, id=686, 963.6pt x 1284.8pt>
+<figures/mod3-on-fan.jpg, id=645, 963.6pt x 1284.8pt>
 File: figures/mod3-on-fan.jpg Graphic file (type jpg)
 <use figures/mod3-on-fan.jpg>
 Package pdftex.def Info: figures/mod3-on-fan.jpg  used on input line 115.
@@ -2217,12 +2204,12 @@ Package pdftex.def Info: Images/Logo BK.png  used on input line 124.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
 
 [40 <./figures/mod3-on-fan.jpg>]
-<figures/mongo-device.png, id=700, 1156.32pt x 612.48825pt>
+<figures/mongo-device.png, id=658, 1156.32pt x 612.48825pt>
 File: figures/mongo-device.png Graphic file (type png)
 <use figures/mongo-device.png>
 Package pdftex.def Info: figures/mongo-device.png  used on input line 129.
 (pdftex.def)             Requested size: 411.14528pt x 217.77597pt.
-<figures/mongo-sensors.png, id=702, 1156.32pt x 617.9085pt>
+<figures/mongo-sensors.png, id=660, 1156.32pt x 617.9085pt>
 File: figures/mongo-sensors.png Graphic file (type png)
 <use figures/mongo-sensors.png>
 Package pdftex.def Info: figures/mongo-sensors.png  used on input line 138.
@@ -2232,12 +2219,12 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 142.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [41 <./figures/mongo-device.png>]
-<figures/mongo-control.png, id=713, 1156.32pt x 610.07925pt>
+<figures/mongo-control.png, id=671, 1156.32pt x 610.07925pt>
 File: figures/mongo-control.png Graphic file (type png)
 <use figures/mongo-control.png>
 Package pdftex.def Info: figures/mongo-control.png  used on input line 147.
 (pdftex.def)             Requested size: 411.14528pt x 216.91942pt.
-<figures/mongo-threshold.png, id=715, 1156.32pt x 619.113pt>
+<figures/mongo-threshold.png, id=673, 1156.32pt x 619.113pt>
 File: figures/mongo-threshold.png Graphic file (type png)
 <use figures/mongo-threshold.png>
 Package pdftex.def Info: figures/mongo-threshold.png  used on input line 156.
@@ -2256,11 +2243,7 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 173.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [43 <./figures/mongo-threshold.png>]
-
-LaTeX Warning: Reference `fig:res-mod5-hardware-voice' on page 44 undefined on 
-input line 174.
-
-<figures/mod5-on-led.jpg, id=733, 963.6pt x 1284.8pt>
+<figures/mod5-on-led.jpg, id=693, 963.6pt x 1284.8pt>
 File: figures/mod5-on-led.jpg Graphic file (type jpg)
 <use figures/mod5-on-led.jpg>
 Package pdftex.def Info: figures/mod5-on-led.jpg  used on input line 178.
@@ -2269,8 +2252,8 @@ File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
 Package pdftex.def Info: Images/Logo BK.png  used on input line 182.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
-[44]
-<figures/mod5-on-fan.jpg, id=740, 963.6pt x 1284.8pt>
+ [44]
+<figures/mod5-on-fan.jpg, id=701, 963.6pt x 1284.8pt>
 File: figures/mod5-on-fan.jpg Graphic file (type jpg)
 <use figures/mod5-on-fan.jpg>
 Package pdftex.def Info: figures/mod5-on-fan.jpg  used on input line 185.
@@ -2280,7 +2263,7 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 189.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [45 <./figures/mod5-on-led.jpg>]
-<figures/mod5-on-servo.jpg, id=747, 963.6pt x 1284.8pt>
+<figures/mod5-on-servo.jpg, id=708, 963.6pt x 1284.8pt>
 File: figures/mod5-on-servo.jpg Graphic file (type jpg)
 <use figures/mod5-on-servo.jpg>
 Package pdftex.def Info: figures/mod5-on-servo.jpg  used on input line 192.
@@ -2290,7 +2273,7 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 196.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [46 <./figures/mod5-on-fan.jpg>]
-<figures/mod5-off-led.jpg, id=754, 1055.945pt x 1284.8pt>
+<figures/mod5-off-led.jpg, id=715, 1055.945pt x 1284.8pt>
 File: figures/mod5-off-led.jpg Graphic file (type jpg)
 <use figures/mod5-off-led.jpg>
 Package pdftex.def Info: figures/mod5-off-led.jpg  used on input line 199.
@@ -2300,7 +2283,7 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 203.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [47 <./figures/mod5-on-servo.jpg>]
-<figures/mod5-off-fan.jpg, id=762, 963.6pt x 1284.8pt>
+<figures/mod5-off-fan.jpg, id=723, 963.6pt x 1284.8pt>
 File: figures/mod5-off-fan.jpg Graphic file (type jpg)
 <use figures/mod5-off-fan.jpg>
 Package pdftex.def Info: figures/mod5-off-fan.jpg  used on input line 206.
@@ -2310,7 +2293,7 @@ File: Images/Logo BK.png Graphic file (type png)
 Package pdftex.def Info: Images/Logo BK.png  used on input line 210.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
  [48 <./figures/mod5-off-led.jpg>]
-<figures/mod5-off-servo.jpg, id=769, 963.6pt x 1284.8pt>
+<figures/mod5-off-servo.jpg, id=729, 963.6pt x 1284.8pt>
 File: figures/mod5-off-servo.jpg Graphic file (type jpg)
 <use figures/mod5-off-servo.jpg>
 Package pdftex.def Info: figures/mod5-off-servo.jpg  used on input line 213.
@@ -2319,7 +2302,8 @@ File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
 Package pdftex.def Info: Images/Logo BK.png  used on input line 217.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
- [49 <./figures/mod5-off-fan.jpg>]) (sections/tong_ket.tex
+
+[49 <./figures/mod5-off-fan.jpg>]) (sections/tong_ket.tex
 File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
 Package pdftex.def Info: Images/Logo BK.png  used on input line 7.
@@ -2329,84 +2313,39 @@ File: Images/Logo BK.png Graphic file (type png)
 <use Images/Logo BK.png>
 Package pdftex.def Info: Images/Logo BK.png  used on input line 220.
 (pdftex.def)             Requested size: 20.57271pt x 20.53899pt.
+ [51]
 
-[51] 
 enddocument/afterlastpage (AED): lastpage setting LastPage.
 (main.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-12-24>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 5F48A8855DCE6DFEE67FA76D75EA9679;17823
-(rerunfilecheck)             After:  03188BA1DB9A26C9A7CAB5C5E14DB236;16110.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 0AF63576AC92FC02F236184C7176AB51;15921.
  ) 
 Here is how much of TeX's memory you used:
- 32381 strings out of 467871
- 593839 string characters out of 5435220
+ 32360 strings out of 467871
+ 593417 string characters out of 5435220
  1034730 words of memory out of 5000000
- 60371 multiletter control sequences out of 15000+600000
+ 60360 multiletter control sequences out of 15000+600000
  659928 words of font info for 123 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  104i,27n,126p,1350b,738s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{page.53} has been referenced but does not exist, re
-placed by a fixed one
-
-
-pdfTeX warning (dest): name{subsubsection.4.5.6} has been referenced but does n
-ot exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsubsection.4.5.5} has been referenced but does n
-ot exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsubsection.4.4.6} has been referenced but does n
-ot exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsubsection.4.4.5} has been referenced but does n
-ot exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsubsection.4.3.5} has been referenced but does n
-ot exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsubsection.4.2.5} has been referenced but does n
-ot exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsubsection.4.2.4} has been referenced but does n
-ot exist, replaced by a fixed one
-
- <C:\Users\pc\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm1000.
-pk><E:/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><E:/MiKTeX/fonts/type1/
-public/amsfonts/cm/cmr10.pfb><E:/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb
-><E:/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><E:/MiKTeX/fonts/type1/pu
-blic/amsfonts/cm/cmsy6.pfb><E:/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-<E:/MiKTeX/fonts/type1/vntex/vnr/vnbx10.pfb><E:/MiKTeX/fonts/type1/vntex/vnr/vn
-bx12.pfb><E:/MiKTeX/fonts/type1/vntex/vnr/vnbx9.pfb><E:/MiKTeX/fonts/type1/vnte
-x/vnr/vnitt10.pfb><E:/MiKTeX/fonts/type1/vntex/vnr/vnr10.pfb><E:/MiKTeX/fonts/t
-ype1/vntex/vnr/vnr12.pfb><E:/MiKTeX/fonts/type1/vntex/vnr/vnti10.pfb><E:/MiKTeX
-/fonts/type1/vntex/vnr/vnti9.pfb><E:/MiKTeX/fonts/type1/vntex/vnr/vntt10.pfb><E
-:/MiKTeX/fonts/type1/vntex/vnr/vntt8.pfb>
-Output written on main.pdf (56 pages, 15940748 bytes).
+ <C:\Users\pc\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcrm100
+0.pk><E:/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><E:/MiKTeX/fonts/type
+1/public/amsfonts/cm/cmr10.pfb><E:/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.p
+fb><E:/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><E:/MiKTeX/fonts/type1/
+public/amsfonts/cm/cmsy6.pfb><E:/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy7.pf
+b><E:/MiKTeX/fonts/type1/vntex/vnr/vnbx10.pfb><E:/MiKTeX/fonts/type1/vntex/vnr/
+vnbx12.pfb><E:/MiKTeX/fonts/type1/vntex/vnr/vnbx9.pfb><E:/MiKTeX/fonts/type1/vn
+tex/vnr/vnitt10.pfb><E:/MiKTeX/fonts/type1/vntex/vnr/vnr10.pfb><E:/MiKTeX/fonts
+/type1/vntex/vnr/vnr12.pfb><E:/MiKTeX/fonts/type1/vntex/vnr/vnti10.pfb><E:/MiKT
+eX/fonts/type1/vntex/vnr/vnti9.pfb><E:/MiKTeX/fonts/type1/vntex/vnr/vntt10.pfb>
+<E:/MiKTeX/fonts/type1/vntex/vnr/vntt8.pfb>
+Output written on main.pdf (55 pages, 15933642 bytes).
 PDF statistics:
- 900 PDF objects out of 1000 (max. 8388607)
- 175 named destinations out of 1000 (max. 500000)
- 748 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 857 PDF objects out of 1000 (max. 8388607)
+ 165 named destinations out of 1000 (max. 500000)
+ 684 words of extra memory for PDF output out of 10000 (max. 10000000)
 

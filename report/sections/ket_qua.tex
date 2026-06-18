@@ -63,7 +63,7 @@ Tại tầng ứng dụng, sau khi Backend Node.js hoàn thành việc gom bộ 
 \subsection{Module 2 — Kết quả Hiện thực Module Tự động hóa và cảnh báo Ngưỡng}
 Module tự động hóa và cảnh báo đã chứng minh được khả năng phản hồi thời gian thực khi xảy ra các kịch bản môi trường vượt ngưỡng an toàn. Kết quả thử nghiệm được xác thực đồng thời trên cả hai tuyến phần cứng vật lý và giao diện giám sát:
 
-Khi các thông số môi trường (như nhiệt độ hoặc ánh sáng) vượt quá biên độ an toàn quy định trong tệp cấu hình, Gateway lập tức phát lệnh Serial xuống vi điều khiển để kích hoạt các thiết bị chấp hành tương ứng nhằm khắc phục sự cố. Hình ảnh \autoref{fig:res-mod2-hardware-actuators} ghi nhận thực tế mạch phần cứng tự động đóng cấp nguồn cho quạt quay và bật đèn LED chiếu sáng tại phần cứng.
+Khi các thông số môi trường (như nhiệt độ hoặc ánh sáng) vượt quá biên độ an toàn quy định trong tệp cấu hình, Gateway lập tức phát lệnh Serial xuống vi điều khiển để kích hoạt các thiết bị chấp hành tương ứng nhằm khắc phục sự cố. Hình ảnh \autoref{fig:res-hardware-fan-auto} ghi nhận thực tế mạch phần cứng tự động đóng cấp nguồn cho quạt quay và bật đèn LED chiếu sáng tại phần cứng.
 
 \begin{figure}[H]
     \centering
@@ -101,7 +101,7 @@ Khi người dùng chuyển hướng sang trang Quản lý thiết bị (\texttt
     \label{fig:res-ui-devices-mod3}
 \end{figure}
 
-Khi người dùng tương tác gạt switch để ra lệnh bật quạt hoặc bật đèn LED, lệnh điều khiển được Backend dịch chuyển xuống cổng Serial. Mạch phần cứng đón nhận lệnh, tác động đóng Relay vật lý lập tức để cấp nguồn cho thiết bị hoạt động thực tế. Hình ảnh \autoref{fig:res-mod3-hardware-on} minh chứng kết quả đèn LED sáng và mô-tơ quạt quay tít sau khi nhận chỉ lệnh thủ công.
+Khi người dùng tương tác gạt switch để ra lệnh bật quạt hoặc bật đèn LED, lệnh điều khiển được Backend dịch chuyển xuống cổng Serial. Mạch phần cứng đón nhận lệnh, tác động đóng Relay vật lý lập tức để cấp nguồn cho thiết bị hoạt động thực tế. Hình ảnh \autoref{fig:res-hardware-led-manual} và \autoref{fig:res-hardware-fan-manual} minh chứng kết quả đèn LED sáng và mô-tơ quạt quay tít sau khi nhận chỉ lệnh thủ công.
 
 \begin{figure}[H]
     \centering
@@ -171,7 +171,7 @@ Khi người dùng nhấn giữ nút Microphone nổi ở góc dưới bên ph�
     \label{fig:res-ui-voice-mod5}
 \end{figure}
 
-Thực nghiệm lệnh bật thiết bị (ví dụ câu lệnh: "bật đèn", "bật quạt", "mở rèm") qua giọng nói ghi nhận các động cơ và Relay vật lý lập tức đáp ứng đổi trạng thái sang On thành công. Ngược lại, hiện thực lệnh tắt hệ thống (ví dụ câu lệnh: "tắt đèn", "tắt quạt", "đóng rèm") ghi nhận mạch vi điều khiển lập tức ngắt điện áp đầu ra vật lý tại biên phần cứng (Tham chiếu: \autoref{fig:res-mod5-hardware-voice}).
+Thực nghiệm lệnh bật thiết bị (ví dụ câu lệnh: "bật đèn", "bật quạt", "mở rèm") qua giọng nói ghi nhận các động cơ và Relay vật lý lập tức đáp ứng đổi trạng thái sang On thành công. Ngược lại, hiện thực lệnh tắt hệ thống (ví dụ câu lệnh: "tắt đèn", "tắt quạt", "đóng rèm") ghi nhận mạch vi điều khiển lập tức ngắt điện áp đầu ra vật lý tại biên phần cứng (Tham chiếu: \autoref{fig:res-voice-on-led}, \autoref{fig:res-voice-off-led}).
 
 \begin{figure}[H]
     \centering
